@@ -40,22 +40,32 @@ document.addEventListener('alpine:init', () => {
 
       this.todayStr = new Date().toLocaleDateString('sv'); // YYYY-MM-DD local time
       
-      // 1. Load Question Bank
-      const localQBank = localStorage.getItem('prep_tracker_question_bank');
-      if (localQBank) {
-        this.questionBank = JSON.parse(localQBank);
-      } else {
-        try {
-          const res = await fetch('question_bank.json');
-          if (!res.ok) throw new Error("Could not fetch question_bank.json");
-          this.questionBank = await res.json();
-          localStorage.setItem('prep_tracker_question_bank', JSON.stringify(this.questionBank));
-        } catch (err) {
-          console.error("Failed to load question bank:", err);
-          // Alert fallback
-          alert("Error loading question_bank.json. Please check console.");
-          return;
+      // 1. Load Question Bank — always fetch fresh, merge saved progress
+      const savedQBank = localStorage.getItem('prep_tracker_question_bank');
+      let freshQBank = null;
+      
+      try {
+        const res = await fetch('question_bank.json');
+        if (!res.ok) throw new Error("Could not fetch question_bank.json");
+        freshQBank = await res.json();
+      } catch (err) {
+        console.warn("Could not fetch question_bank.json, falling back to cache:", err);
+      }
+      
+      if (freshQBank) {
+        // Merge: overlay saved mastery/completion states onto fresh data
+        if (savedQBank) {
+          const saved = JSON.parse(savedQBank);
+          this._mergeProgress(freshQBank, saved);
         }
+        this.questionBank = freshQBank;
+        localStorage.setItem('prep_tracker_question_bank', JSON.stringify(this.questionBank));
+      } else if (savedQBank) {
+        // Offline fallback: use cached version
+        this.questionBank = JSON.parse(savedQBank);
+      } else {
+        alert("Error loading question_bank.json and no cached data available.");
+        return;
       }
 
       // 2. Load User State
@@ -93,6 +103,34 @@ document.addEventListener('alpine:init', () => {
       } else {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
+      }
+    },
+
+    // Merges saved mastery/completion progress onto a fresh question bank
+    // fresh = newly fetched from file, saved = from localStorage
+    _mergeProgress(fresh, saved) {
+      // Merge tier questions (mastered state)
+      const tierKeys = ['tier_1_core', 'tier_2_resume', 'tier_3_leadership', 'tier_4_system_design'];
+      tierKeys.forEach(key => {
+        if (!fresh[key] || !saved[key]) return;
+        const savedMap = {};
+        saved[key].forEach(q => { savedMap[q.id] = q; });
+        fresh[key].forEach(q => {
+          if (savedMap[q.id]) {
+            q.mastered = savedMap[q.id].mastered;
+          }
+        });
+      });
+      
+      // Merge DSA problems (completed state)
+      if (fresh.dsa_problems && saved.dsa_problems) {
+        const savedDsaMap = {};
+        saved.dsa_problems.forEach(p => { savedDsaMap[p.id] = p; });
+        fresh.dsa_problems.forEach(p => {
+          if (savedDsaMap[p.id]) {
+            p.completed = savedDsaMap[p.id].completed;
+          }
+        });
       }
     },
 
@@ -200,31 +238,46 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
+    // Deterministic seeded PRNG (mulberry32) — same date = same sequence on every device
+    _seedFromDate(dateStr) {
+      let h = 0;
+      for (let i = 0; i < dateStr.length; i++) {
+        h = Math.imul(31, h) + dateStr.charCodeAt(i) | 0;
+      }
+      return function() {
+        h |= 0; h = h + 0x6D2B79F5 | 0;
+        let t = Math.imul(h ^ h >>> 15, 1 | h);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    },
+
     // Draws fresh daily tasks
     drawDailyTasks() {
       const qBank = this.questionBank;
+      const rng = this._seedFromDate(this.todayStr);
       
       // 1. Draw 1-2 incomplete problems from dsa_problems
       let incompleteDsa = qBank.dsa_problems.filter(p => !p.completed);
       if (incompleteDsa.length === 0) {
         incompleteDsa = qBank.dsa_problems; // Fallback to all if everything is completed
       }
-      const numDsaToDraw = Math.floor(Math.random() * 2) + 1; // 1 or 2
-      const selectedDsa = this.getRandomElements(incompleteDsa, Math.min(numDsaToDraw, incompleteDsa.length));
+      const numDsaToDraw = Math.floor(rng() * 2) + 1; // 1 or 2
+      const selectedDsa = this.getRandomElements(incompleteDsa, Math.min(numDsaToDraw, incompleteDsa.length), rng);
       
       // 2. Draw 3 incomplete questions randomly from tier_1_core or tier_2_resume
       let corePool = [...qBank.tier_1_core, ...qBank.tier_2_resume].filter(q => !q.mastered);
       if (corePool.length === 0) {
         corePool = [...qBank.tier_1_core, ...qBank.tier_2_resume];
       }
-      const selectedCore = this.getRandomElements(corePool, Math.min(3, corePool.length));
+      const selectedCore = this.getRandomElements(corePool, Math.min(3, corePool.length), rng);
 
       // 3. Draw 1 incomplete question randomly from tier_3_leadership or tier_4_system_design
       let archPool = [...qBank.tier_3_leadership, ...qBank.tier_4_system_design].filter(q => !q.mastered);
       if (archPool.length === 0) {
         archPool = [...qBank.tier_3_leadership, ...qBank.tier_4_system_design];
       }
-      const selectedArch = this.getRandomElements(archPool, Math.min(1, archPool.length));
+      const selectedArch = this.getRandomElements(archPool, Math.min(1, archPool.length), rng);
 
       const dailyTasks = [];
       
@@ -277,17 +330,24 @@ document.addEventListener('alpine:init', () => {
       return dailyTasks;
     },
 
-    // Shuffles and slices array
-    getRandomElements(arr, count) {
-      const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    // Shuffles and slices array using provided RNG (or Math.random fallback)
+    getRandomElements(arr, count, rng) {
+      const rand = rng || Math.random;
+      const shuffled = [...arr];
+      // Fisher-Yates shuffle with seeded RNG for determinism
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
       return shuffled.slice(0, count);
     },
 
-    // Draws 1 random tip from the daily_tips array
+    // Draws 1 random tip from the daily_tips array (seeded by date)
     drawDailyTip() {
       const qBank = this.questionBank;
+      const rng = this._seedFromDate(this.todayStr + '_tip');
       if (qBank && qBank.daily_tips && qBank.daily_tips.length > 0) {
-        const idx = Math.floor(Math.random() * qBank.daily_tips.length);
+        const idx = Math.floor(rng() * qBank.daily_tips.length);
         return qBank.daily_tips[idx];
       }
       return "When explaining system design, always start with clarifying requirements before drawing a single box.";
