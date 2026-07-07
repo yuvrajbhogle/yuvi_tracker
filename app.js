@@ -781,22 +781,28 @@ document.addEventListener('alpine:init', () => {
     getFilteredQuestions(tierKey) {
       if (!this.questionBank || !this.questionBank[tierKey]) return [];
       const query = this.explorerSearch.toLowerCase().trim();
+      if (!query) return this.questionBank[tierKey];
       return this.questionBank[tierKey].filter(q => {
-        const questionText = q.question || '';
-        const topicText = q.topic || '';
-        return questionText.toLowerCase().includes(query) || 
-               topicText.toLowerCase().includes(query);
+        const questionText = (q.question || '').toLowerCase();
+        const topicText = (q.topic || '').toLowerCase();
+        const keywordsText = (q.keywords || []).join(' ').toLowerCase();
+        return questionText.includes(query) || 
+               topicText.includes(query) ||
+               keywordsText.includes(query);
       });
     },
 
     getFilteredDsa() {
       if (!this.questionBank || !this.questionBank.dsa_problems) return [];
       const query = this.explorerSearch.toLowerCase().trim();
+      if (!query) return this.questionBank.dsa_problems;
       return this.questionBank.dsa_problems.filter(p => {
-        const titleText = p.title || '';
-        const categoryText = p.category || '';
-        return titleText.toLowerCase().includes(query) || 
-               categoryText.toLowerCase().includes(query);
+        const titleText = (p.title || '').toLowerCase();
+        const categoryText = (p.category || '').toLowerCase();
+        const keywordsText = (p.keywords || []).join(' ').toLowerCase();
+        return titleText.includes(query) || 
+               categoryText.includes(query) ||
+               keywordsText.includes(query);
       });
     },
 

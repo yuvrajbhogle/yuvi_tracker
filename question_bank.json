@@ -3,608 +3,1308 @@
     {
       "id": "t1-1",
       "topic": "Django",
-      "question": "Explain Django request lifecycle.",
-      "mastered": false
+      "question": "Walk me through the exact lifecycle of a Django request from the WSGI/ASGI server to the returned response.",
+      "mastered": false,
+      "keywords": [
+        "WSGI handler",
+        "Middleware chains",
+        "URL resolver",
+        "View execution",
+        "Template rendering"
+      ]
     },
     {
       "id": "t1-2",
       "topic": "Django",
-      "question": "WSGI vs ASGI.",
-      "mastered": false
+      "question": "Compare WSGI and ASGI. In what specific scenarios would you migrate a legacy Django app to ASGI?",
+      "mastered": false,
+      "keywords": [
+        "Synchronous vs Asynchronous",
+        "Event loop",
+        "WebSockets",
+        "I/O bound operations",
+        "Concurrent connections"
+      ]
     },
     {
       "id": "t1-3",
       "topic": "Django",
-      "question": "Middleware execution flow.",
-      "mastered": false
+      "question": "Explain how Django middleware is executed. How would you write custom middleware to implement request throttling?",
+      "mastered": false,
+      "keywords": [
+        "process_request",
+        "process_response",
+        "Callable classes",
+        "Execution order",
+        "Caching layer checks"
+      ]
     },
     {
       "id": "t1-4",
       "topic": "Django",
-      "question": "Authentication vs Authorization.",
-      "mastered": false
+      "question": "What is the difference between Authentication and Authorization in Django? How do you implement custom permission classes?",
+      "mastered": false,
+      "keywords": [
+        "Identity verification",
+        "Access control",
+        "has_permission",
+        "BasePermission",
+        "Object-level permissions"
+      ]
     },
     {
       "id": "t1-5",
       "topic": "Django",
-      "question": "Session vs JWT.",
-      "mastered": false
+      "question": "Evaluate the trade-offs of using Session-based authentication versus stateless JWTs in a microservice architecture.",
+      "mastered": false,
+      "keywords": [
+        "Stateful vs Stateless",
+        "Database lookups",
+        "Token expiration",
+        "Revocation complexities",
+        "Cross-Origin Resource Sharing (CORS)"
+      ]
     },
     {
       "id": "t1-6",
       "topic": "Django",
-      "question": "Django ORM internals.",
-      "mastered": false
+      "question": "Explain how the Django ORM translates querysets into SQL. How does lazy evaluation work?",
+      "mastered": false,
+      "keywords": [
+        "Lazy evaluation",
+        "QuerySet cache",
+        "SQL compiler",
+        "Iteration",
+        "Execution timing"
+      ]
     },
     {
       "id": "t1-7",
       "topic": "Django",
-      "question": "select_related vs prefetch_related.",
-      "mastered": false
+      "question": "Explain the N+1 query problem. Give a concrete example of fixing it using `select_related` versus `prefetch_related`.",
+      "mastered": false,
+      "keywords": [
+        "SQL JOINs (select_related)",
+        "Additional queries in Python (prefetch_related)",
+        "Foreign Key",
+        "Many-to-Many",
+        "Memory overhead"
+      ]
     },
     {
       "id": "t1-8",
       "topic": "Django",
-      "question": "N+1 problem.",
-      "mastered": false
+      "question": "How do you identify and resolve a severe N+1 problem in a legacy Django application that is already in production?",
+      "mastered": false,
+      "keywords": [
+        "django-debug-toolbar",
+        "Query logging",
+        "EXPLAIN ANALYZE",
+        "Database optimization",
+        "APM tools"
+      ]
     },
     {
       "id": "t1-9",
       "topic": "Django",
-      "question": "Django signals.",
-      "mastered": false
+      "question": "What are the hidden dangers of heavily relying on Django signals for business logic? What architectural alternatives do you prefer?",
+      "mastered": false,
+      "keywords": [
+        "Implicit execution",
+        "Debugging difficulty",
+        "Transaction timing",
+        "Celery tasks",
+        "Service layer pattern"
+      ]
     },
     {
       "id": "t1-10",
       "topic": "Django",
-      "question": "Transactions in Django.",
-      "mastered": false
+      "question": "Walk me through how you handle atomic transactions in Django, specifically when updating multiple related models simultaneously.",
+      "mastered": false,
+      "keywords": [
+        "transaction.atomic",
+        "Database locks",
+        "Rollback",
+        "IntegrityError",
+        "Race conditions"
+      ]
     },
     {
       "id": "t1-11",
       "topic": "APIs",
-      "question": "PUT vs PATCH.",
-      "mastered": false
+      "question": "What is the architectural difference between PUT and PATCH? When is it strictly incorrect to use PUT?",
+      "mastered": false,
+      "keywords": [
+        "Complete replacement",
+        "Partial update",
+        "Idempotency",
+        "Payload size",
+        "Resource representation"
+      ]
     },
     {
       "id": "t1-12",
       "topic": "APIs",
-      "question": "401 vs 403.",
-      "mastered": false
+      "question": "Differentiate between a 401 Unauthorized and a 403 Forbidden status code. Give a real-world API scenario for each.",
+      "mastered": false,
+      "keywords": [
+        "Unauthenticated",
+        "Missing credentials",
+        "Authenticated but unauthorized",
+        "Role-based access",
+        "Permissions"
+      ]
     },
     {
       "id": "t1-13",
       "topic": "APIs",
-      "question": "REST principles.",
-      "mastered": false
+      "question": "Beyond using HTTP methods, what makes an API truly RESTful according to Richardson's Maturity Model?",
+      "mastered": false,
+      "keywords": [
+        "Statelessness",
+        "Resource URIs",
+        "HATEOAS",
+        "Standard status codes",
+        "Client-server separation"
+      ]
     },
     {
       "id": "t1-14",
       "topic": "APIs",
-      "question": "Idempotency.",
-      "mastered": false
+      "question": "What does it mean for an API to be idempotent? Explain how you would design an idempotent payment processing endpoint.",
+      "mastered": false,
+      "keywords": [
+        "Side effects",
+        "Idempotency key / UUID",
+        "Database constraints (Unique)",
+        "Caching layer checks",
+        "Safe methods"
+      ]
     },
     {
       "id": "t1-15",
       "topic": "APIs",
-      "question": "Pagination strategies.",
-      "mastered": false
+      "question": "Compare offset-based pagination with cursor-based pagination. When would you strictly enforce cursor pagination?",
+      "mastered": false,
+      "keywords": [
+        "LIMIT/OFFSET",
+        "Performance degradation",
+        "Data volatility",
+        "O(1) lookups",
+        "Real-time feeds"
+      ]
     },
     {
       "id": "t1-16",
       "topic": "APIs",
-      "question": "API versioning.",
-      "mastered": false
+      "question": "How do you handle API versioning in a high-traffic production system without breaking existing mobile clients?",
+      "mastered": false,
+      "keywords": [
+        "URI versioning",
+        "Header versioning",
+        "Deprecation schedules",
+        "Backward compatibility",
+        "Adapter pattern"
+      ]
     },
     {
       "id": "t1-17",
       "topic": "APIs",
-      "question": "API security.",
-      "mastered": false
+      "question": "Walk me through the standard security mechanisms you implement to harden a public-facing API.",
+      "mastered": false,
+      "keywords": [
+        "Rate limiting",
+        "TLS/HTTPS",
+        "Payload validation",
+        "CORS policies",
+        "Throttling"
+      ]
     },
     {
       "id": "t1-18",
       "topic": "APIs",
-      "question": "OAuth flow.",
-      "mastered": false
+      "question": "Explain the OAuth 2.0 Authorization Code flow. How does the exchange of the authorization code for an access token protect the user?",
+      "mastered": false,
+      "keywords": [
+        "Client ID/Secret",
+        "Redirect URI",
+        "Authorization server",
+        "Resource server",
+        "Back-channel communication"
+      ]
     },
     {
       "id": "t1-19",
       "topic": "APIs",
-      "question": "JWT lifecycle.",
-      "mastered": false
+      "question": "Walk me through the lifecycle of a JWT. How do you handle token revocation when a user logs out globally?",
+      "mastered": false,
+      "keywords": [
+        "Header/Payload/Signature",
+        "Expiration (exp)",
+        "Refresh tokens",
+        "Token blocklist/Redis",
+        "Stateless verification"
+      ]
     },
     {
       "id": "t1-20",
       "topic": "APIs",
-      "question": "API Gateway responsibilities.",
-      "mastered": false
+      "question": "What are the primary responsibilities of an API Gateway in a microservices architecture?",
+      "mastered": false,
+      "keywords": [
+        "Request routing",
+        "Rate limiting",
+        "SSL termination",
+        "Authentication/Authorization",
+        "Load balancing"
+      ]
     },
     {
       "id": "t1-21",
       "topic": "PostgreSQL",
-      "question": "Indexes.",
-      "mastered": false
+      "question": "Explain how a B-Tree index works in PostgreSQL. In what scenario would a sequential scan actually be faster than an index scan?",
+      "mastered": false,
+      "keywords": [
+        "Logarithmic time O(log n)",
+        "Tree traversal",
+        "High cardinality",
+        "Low cardinality",
+        "Disk I/O"
+      ]
     },
     {
       "id": "t1-22",
       "topic": "PostgreSQL",
-      "question": "Composite indexes.",
-      "mastered": false
+      "question": "What is a composite index? How does the order of columns in the index definition affect query planning?",
+      "mastered": false,
+      "keywords": [
+        "Multiple columns",
+        "Left-prefix rule",
+        "Selectivity",
+        "WHERE clause ordering",
+        "Index coverage"
+      ]
     },
     {
       "id": "t1-23",
       "topic": "PostgreSQL",
-      "question": "Query optimization.",
-      "mastered": false
+      "question": "You have a slow-running query on a table with 50 million rows. Walk me through your optimization strategy.",
+      "mastered": false,
+      "keywords": [
+        "EXPLAIN ANALYZE",
+        "Missing indexes",
+        "Vacuum/Analyze",
+        "Query rewriting",
+        "Materialized views"
+      ]
     },
     {
       "id": "t1-24",
       "topic": "PostgreSQL",
-      "question": "Explain query plans.",
-      "mastered": false
+      "question": "Read me a mental EXPLAIN ANALYZE plan. What specific metrics or keywords are you looking for to diagnose bottlenecks?",
+      "mastered": false,
+      "keywords": [
+        "Seq Scan",
+        "Index Scan",
+        "Execution time vs Planning time",
+        "Loops",
+        "Cost estimates"
+      ]
     },
     {
       "id": "t1-25",
       "topic": "PostgreSQL",
-      "question": "Transactions.",
-      "mastered": false
+      "question": "Explain the ACID properties of a database transaction with a practical example from an insurance quote engine.",
+      "mastered": false,
+      "keywords": [
+        "Atomicity",
+        "Consistency",
+        "Isolation",
+        "Durability",
+        "All-or-nothing execution"
+      ]
     },
     {
       "id": "t1-26",
       "topic": "PostgreSQL",
-      "question": "Isolation levels.",
-      "mastered": false
+      "question": "How does PostgreSQL handle Transaction Isolation Levels? Detail the difference between Read Committed and Serializable.",
+      "mastered": false,
+      "keywords": [
+        "Dirty reads",
+        "Non-repeatable reads",
+        "Phantom reads",
+        "MVCC (Multi-Version Concurrency Control)",
+        "Locking"
+      ]
     },
     {
       "id": "t1-27",
       "topic": "PostgreSQL",
-      "question": "Deadlocks.",
-      "mastered": false
+      "question": "What causes database deadlocks? How do you design your application logic to prevent them from occurring?",
+      "mastered": false,
+      "keywords": [
+        "Circular wait",
+        "Lock acquisition order",
+        "Row-level locks",
+        "Timeouts",
+        "Retry logic"
+      ]
     },
     {
       "id": "t1-28",
       "topic": "PostgreSQL",
-      "question": "Read replicas.",
-      "mastered": false
+      "question": "How do you handle replication lag in a Primary-Replica (Read/Write splitting) setup? What happens if a user updates their profile and immediately reloads?",
+      "mastered": false,
+      "keywords": [
+        "Eventual consistency",
+        "Sticky sessions",
+        "Read-after-write consistency",
+        "Asynchronous replication",
+        "Forced primary reads"
+      ]
     },
     {
       "id": "t1-29",
       "topic": "PostgreSQL",
-      "question": "Partitioning.",
-      "mastered": false
+      "question": "When would you choose table partitioning over database sharding? Explain the strategy for partitioning large time-series tables.",
+      "mastered": false,
+      "keywords": [
+        "Logical separation",
+        "Range partitioning",
+        "Query routing",
+        "Maintenance overhead",
+        "Single database instance"
+      ]
     },
     {
       "id": "t1-30",
       "topic": "PostgreSQL",
-      "question": "Sharding.",
-      "mastered": false
+      "question": "At what scale do you mandate database sharding? Discuss the complexities it introduces to application-level logic.",
+      "mastered": false,
+      "keywords": [
+        "Horizontal scaling",
+        "Shard keys / Hashing",
+        "Cross-shard joins",
+        "Data hotspots",
+        "Rebalancing"
+      ]
     },
     {
       "id": "t1-31",
       "topic": "Redis",
-      "question": "Why Redis?",
-      "mastered": false
+      "question": "Why use Redis instead of Memcached or a standard relational database for high-throughput transient data?",
+      "mastered": false,
+      "keywords": [
+        "In-memory execution",
+        "Single-threaded event loop",
+        "Rich data structures",
+        "Persistence options",
+        "Microsecond latency"
+      ]
     },
     {
       "id": "t1-32",
       "topic": "Redis",
-      "question": "Data structures.",
-      "mastered": false
+      "question": "Walk me through the primary Redis data structures. Provide a real-world use case for a Sorted Set (ZSET).",
+      "mastered": false,
+      "keywords": [
+        "Strings, Hashes, Lists, Sets",
+        "ZSET (Sorted Set)",
+        "Leaderboards",
+        "Rate limiting windows",
+        "O(log(N)) time complexity"
+      ]
     },
     {
       "id": "t1-33",
       "topic": "Redis",
-      "question": "Persistence.",
-      "mastered": false
+      "question": "Explain the difference between RDB (snapshots) and AOF (Append Only File) in Redis. What are the trade-offs for recovery time and data safety?",
+      "mastered": false,
+      "keywords": [
+        "Point-in-time snapshots",
+        "Transaction logs",
+        "I/O overhead",
+        "Data loss windows",
+        "File size"
+      ]
     },
     {
       "id": "t1-34",
       "topic": "Redis",
-      "question": "Cache invalidation.",
-      "mastered": false
+      "question": "Cache invalidation is notoriously difficult. What strategies do you use to ensure users don't see stale insurance quotes?",
+      "mastered": false,
+      "keywords": [
+        "Time-to-Live (TTL)",
+        "Write-through cache",
+        "Cache busting",
+        "Event-driven invalidation",
+        "Stale-while-revalidate"
+      ]
     },
     {
       "id": "t1-35",
       "topic": "Redis",
-      "question": "Distributed locks.",
-      "mastered": false
+      "question": "How do you implement a distributed lock safely using Redis? What are the potential pitfalls if a worker crashes holding the lock?",
+      "mastered": false,
+      "keywords": [
+        "SETNX",
+        "Expiration/TTL",
+        "Redlock algorithm",
+        "Stale locks",
+        "Unique lock values (UUID)"
+      ]
     },
     {
       "id": "t1-36",
       "topic": "Redis",
-      "question": "Rate limiting.",
-      "mastered": false
+      "question": "How would you implement a distributed rate-limiter using Redis? Outline the algorithm and data structures.",
+      "mastered": false,
+      "keywords": [
+        "Token Bucket / Leaky Bucket",
+        "Sliding window log (ZSET)",
+        "Timestamps as scores",
+        "TTL / Expiration",
+        "Lua scripting (atomic operations)"
+      ]
     },
     {
       "id": "t1-37",
       "topic": "Redis",
-      "question": "Pub/Sub.",
-      "mastered": false
+      "question": "Explain how Redis Pub/Sub works. How does it differ from a message broker like RabbitMQ?",
+      "mastered": false,
+      "keywords": [
+        "Fire-and-forget",
+        "No persistence",
+        "Channels",
+        "At-most-once delivery",
+        "Real-time broadcasting"
+      ]
     },
     {
       "id": "t1-38",
       "topic": "Redis",
-      "question": "Redis vs RabbitMQ.",
-      "mastered": false
+      "question": "In what specific architectural scenario would you migrate from Redis to RabbitMQ for asynchronous task processing?",
+      "mastered": false,
+      "keywords": [
+        "Complex routing",
+        "Guaranteed delivery",
+        "Message acknowledgment (ACK)",
+        "Dead-letter queues",
+        "Persistent queues"
+      ]
     },
     {
       "id": "t1-39",
       "topic": "Redis",
-      "question": "Memory management.",
-      "mastered": false
+      "question": "How does Redis handle memory management when physical RAM is exhausted?",
+      "mastered": false,
+      "keywords": [
+        "maxmemory directive",
+        "Out of Memory (OOM) errors",
+        "Eviction policies",
+        "Swap space",
+        "Fragmentation"
+      ]
     },
     {
       "id": "t1-40",
       "topic": "Redis",
-      "question": "Eviction policies.",
-      "mastered": false
+      "question": "Your Redis cache is hitting its max memory limit. Explain the LRU and LFU eviction policies and when to use each.",
+      "mastered": false,
+      "keywords": [
+        "allkeys-lru",
+        "volatile-lru",
+        "allkeys-lfu",
+        "noeviction",
+        "Cache hit ratio optimization"
+      ]
     },
     {
       "id": "t1-41",
       "topic": "Celery",
-      "question": "Celery architecture.",
-      "mastered": false
+      "question": "Explain the architecture of Celery. How do the components (Client, Broker, Worker, Result Backend) interact?",
+      "mastered": false,
+      "keywords": [
+        "Message broker",
+        "Asynchronous execution",
+        "Serialization (JSON/Pickle)",
+        "Task queuing",
+        "Concurrency pool"
+      ]
     },
     {
       "id": "t1-42",
       "topic": "Celery",
-      "question": "Broker vs Worker.",
-      "mastered": false
+      "question": "Contrast the roles of the Message Broker (e.g., RabbitMQ) and the Result Backend (e.g., Redis) in a Celery deployment.",
+      "mastered": false,
+      "keywords": [
+        "Task distribution",
+        "State persistence",
+        "Polling for results",
+        "Message durability",
+        "Throughput"
+      ]
     },
     {
       "id": "t1-43",
       "topic": "Celery",
-      "question": "Retry mechanisms.",
-      "mastered": false
+      "question": "Walk me through how you configure retry mechanisms for flaky third-party API calls within Celery tasks.",
+      "mastered": false,
+      "keywords": [
+        "autoretry_for",
+        "Exponential backoff",
+        "Max retries",
+        "Jitter",
+        "Retry delays"
+      ]
     },
     {
       "id": "t1-44",
       "topic": "Celery",
-      "question": "Task failures.",
-      "mastered": false
+      "question": "How do you handle hard task failures in production? Walk me through your approach to dead-letter queues.",
+      "mastered": false,
+      "keywords": [
+        "Exception handling",
+        "Dead-letter exchange (DLX)",
+        "Alerting mechanisms",
+        "Manual replay",
+        "Failure states"
+      ]
     },
     {
       "id": "t1-45",
       "topic": "Celery",
-      "question": "Idempotent tasks.",
-      "mastered": false
+      "question": "Why is it critical for background tasks to be idempotent? How do you enforce this at the database level?",
+      "mastered": false,
+      "keywords": [
+        "At-least-once delivery",
+        "Duplicate execution",
+        "Unique constraints",
+        "State checking before execution",
+        "Side effects"
+      ]
     },
     {
       "id": "t1-46",
       "topic": "Celery",
-      "question": "Scheduling.",
-      "mastered": false
+      "question": "How do you orchestrate scheduled or recurring tasks using Celery Beat across multiple distributed worker nodes?",
+      "mastered": false,
+      "keywords": [
+        "Cron schedules",
+        "Single beat instance",
+        "Database scheduler",
+        "Timezone handling",
+        "Dynamic task generation"
+      ]
     },
     {
       "id": "t1-47",
       "topic": "Celery",
-      "question": "Monitoring.",
-      "mastered": false
+      "question": "How do you monitor the health, queue lengths, and memory usage of a massive Celery cluster in production?",
+      "mastered": false,
+      "keywords": [
+        "Flower",
+        "Prometheus/Grafana",
+        "Queue backlogs",
+        "Worker memory leaks",
+        "Max-tasks-per-child"
+      ]
     },
     {
       "id": "t1-48",
       "topic": "Celery",
-      "question": "RabbitMQ vs Redis.",
-      "mastered": false
+      "question": "What are the limitations of using Redis as a Celery broker compared to RabbitMQ in a high-volume financial system?",
+      "mastered": false,
+      "keywords": [
+        "Visibility timeout",
+        "Message loss on crash",
+        "Lack of complex routing",
+        "Memory constraints",
+        "AMQP protocol support"
+      ]
     },
     {
       "id": "t1-49",
       "topic": "Celery",
-      "question": "Prevent duplicate execution.",
-      "mastered": false
+      "question": "If a Celery worker crashes mid-task, how do you prevent the task from being lost or executed partially a second time?",
+      "mastered": false,
+      "keywords": [
+        "Late acknowledgment (ACKS_LATE)",
+        "Idempotency",
+        "Database transactions",
+        "Worker timeouts",
+        "Orphaned tasks"
+      ]
     },
     {
       "id": "t1-50",
       "topic": "Celery",
-      "question": "Long running tasks.",
-      "mastered": false
+      "question": "How do you optimize Celery for exceptionally long-running tasks, like generating massive PDF reports, without blocking the queue?",
+      "mastered": false,
+      "keywords": [
+        "Dedicated queues",
+        "Task chunking",
+        "Prefetch limits (prefetch_multiplier)",
+        "Timeouts",
+        "Concurrency settings"
+      ]
     }
   ],
   "tier_2_resume": [
     {
       "id": "t2-1",
       "topic": "Vahan Engine",
-      "question": "Explain Adapter Pattern implementation.",
-      "mastered": false
+      "question": "Walk me through how you implemented the Adapter Pattern for the Vahan API ingestion. How did this isolate the core system?",
+      "mastered": false,
+      "keywords": [
+        "Interface segregation",
+        "Normalization",
+        "Configuration-driven",
+        "Decoupling",
+        "Vendor-agnostic core"
+      ]
     },
     {
       "id": "t2-2",
       "topic": "Vahan Engine",
-      "question": "Why configuration-driven?",
-      "mastered": false
+      "question": "Why did you build the ingestion engine to be 'configuration-driven'? What engineering bottleneck did this solve?",
+      "mastered": false,
+      "keywords": [
+        "Zero-code deployments",
+        "Rapid vendor switching",
+        "JSON/YAML schemas",
+        "Reduced deployment risk",
+        "Scalability"
+      ]
     },
     {
       "id": "t2-3",
       "topic": "Vahan Engine",
-      "question": "How did vendor onboarding work?",
-      "mastered": false
+      "question": "Tell me about the end-to-end process of onboarding a new data vendor using your engine. How long did it take previously vs now?",
+      "mastered": false,
+      "keywords": [
+        "Schema mapping",
+        "Data validation",
+        "Reduced engineering hours",
+        "Automated testing",
+        "Seamless integration"
+      ]
     },
     {
       "id": "t2-4",
       "topic": "Vahan Engine",
-      "question": "Explain migration architecture.",
-      "mastered": false
+      "question": "Explain the architectural strategy behind the migration to the fallback vendor. How did you route traffic without downtime?",
+      "mastered": false,
+      "keywords": [
+        "Load balancers",
+        "Feature flags",
+        "Traffic shadowing",
+        "DNS routing",
+        "Zero-downtime deployment"
+      ]
     },
     {
       "id": "t2-5",
       "topic": "Vahan Engine",
-      "question": "Explain outage response.",
-      "mastered": false
+      "question": "Tell me about the overnight migration during the massive third-party outage. What was the exact sequence of events?",
+      "mastered": false,
+      "keywords": [
+        "Incident response",
+        "Critical path execution",
+        "Stakeholder communication",
+        "Monitoring spikes",
+        "Seamless quote generation"
+      ]
     },
     {
       "id": "t2-6",
       "topic": "Vahan Engine",
-      "question": "How was rollback handled?",
-      "mastered": false
+      "question": "If the fallback vendor migration had failed corrupted data, how was your rollback procedure architected?",
+      "mastered": false,
+      "keywords": [
+        "Database snapshots",
+        "Blue/Green deployment",
+        "Schema versioning",
+        "Automated rollback scripts",
+        "Data reconciliation"
+      ]
     },
     {
       "id": "t2-7",
       "topic": "Vahan Engine",
-      "question": "Data consistency challenges.",
-      "mastered": false
+      "question": "What data consistency challenges did you face when aggregating vehicle data from multiple disparate sources?",
+      "mastered": false,
+      "keywords": [
+        "Data normalization",
+        "Conflicting source of truth",
+        "ETL pipelines",
+        "Type coercion",
+        "Sanitization"
+      ]
     },
     {
       "id": "t2-8",
       "topic": "Vahan Engine",
-      "question": "Vendor schema normalization.",
-      "mastered": false
+      "question": "How did you design the schema normalization rules to handle deeply nested and inconsistent JSON payloads from external vendors?",
+      "mastered": false,
+      "keywords": [
+        "Data transformation layer",
+        "JSON parsing",
+        "Validation schemas (Pydantic/Marshmallow)",
+        "Error handling",
+        "Default values"
+      ]
     },
     {
       "id": "t2-9",
       "topic": "Vahan Engine",
-      "question": "Failure scenarios.",
-      "mastered": false
+      "question": "Walk me through the failure scenarios you accounted for. What happens when a vendor returns a malformed 200 OK response?",
+      "mastered": false,
+      "keywords": [
+        "Defensive programming",
+        "Schema validation",
+        "Retry logic",
+        "Alerting on anomalies",
+        "Graceful degradation"
+      ]
     },
     {
       "id": "t2-10",
       "topic": "Vahan Engine",
-      "question": "Lessons learned.",
-      "mastered": false
+      "question": "Looking back at the Vahan engine architecture, what technical debt did you incur, and how would you redesign it today?",
+      "mastered": false,
+      "keywords": [
+        "Hindsight architecture",
+        "Performance bottlenecks",
+        "Asynchronous processing",
+        "Event-driven design",
+        "Refactoring plans"
+      ]
     },
     {
       "id": "t2-11",
       "topic": "Vendor Chaining",
-      "question": "Circuit breaker design.",
-      "mastered": false
+      "question": "Explain the circuit breaker design in your Vendor Chaining system. How does it know when to trip and when to retry the primary API?",
+      "mastered": false,
+      "keywords": [
+        "Closed/Open/Half-Open states",
+        "Failure thresholds",
+        "Timeouts",
+        "Fallback routing",
+        "Self-healing systems"
+      ]
     },
     {
       "id": "t2-12",
       "topic": "Vendor Chaining",
-      "question": "Health check mechanism.",
-      "mastered": false
+      "question": "How did you design the health check mechanism to not overwhelm a recovering third-party vendor API?",
+      "mastered": false,
+      "keywords": [
+        "Exponential backoff",
+        "Jitter",
+        "Ping endpoints",
+        "Rate limiting",
+        "Half-open state probes"
+      ]
     },
     {
       "id": "t2-13",
       "topic": "Vendor Chaining",
-      "question": "Retry strategy.",
-      "mastered": false
+      "question": "Describe the retry strategy implemented across the vendor chain. How did you ensure you didn't create a thundering herd problem?",
+      "mastered": false,
+      "keywords": [
+        "Idempotency",
+        "Backoff multipliers",
+        "Randomized jitter",
+        "Timeout limits",
+        "Queue management"
+      ]
     },
     {
       "id": "t2-14",
       "topic": "Vendor Chaining",
-      "question": "Vendor selection logic.",
-      "mastered": false
+      "question": "What logic governed the automated vendor selection routing? Was it based purely on availability, latency, or cost-per-call?",
+      "mastered": false,
+      "keywords": [
+        "Dynamic routing",
+        "Weighted distribution",
+        "Latency monitoring",
+        "Cost optimization logic",
+        "SLA tracking"
+      ]
     },
     {
       "id": "t2-15",
       "topic": "Vendor Chaining",
-      "question": "Billing reconciliation.",
-      "mastered": false
+      "question": "Walk me through the internal automated reconciliation tools you built to audit API usage against vendor billing.",
+      "mastered": false,
+      "keywords": [
+        "Log aggregation",
+        "Discrepancy reporting",
+        "Database auditing",
+        "Cron jobs",
+        "Financial accuracy"
+      ]
     },
     {
       "id": "t2-16",
       "topic": "Vendor Chaining",
-      "question": "Edge cases.",
-      "mastered": false
+      "question": "What edge cases did you encounter when chaining multiple vendors? (e.g., Vendor A says 'Not Found', Vendor B says 'Timeout').",
+      "mastered": false,
+      "keywords": [
+        "State management",
+        "Error code mapping",
+        "Timeout bubbling",
+        "Final fallback responses",
+        "Logging context"
+      ]
     },
     {
       "id": "t2-17",
       "topic": "Vendor Chaining",
-      "question": "Metrics collected.",
-      "mastered": false
+      "question": "What specific metrics did you collect to prove to stakeholders that the Vendor Chaining system was protecting revenue?",
+      "mastered": false,
+      "keywords": [
+        "Uptime percentage",
+        "Successful failovers count",
+        "Latency percentiles (p99)",
+        "Quote conversion rate",
+        "Saved API costs"
+      ]
     },
     {
       "id": "t2-18",
       "topic": "Vendor Chaining",
-      "question": "Monitoring.",
-      "mastered": false
+      "question": "How did you structure the monitoring layer for this distributed routing system?",
+      "mastered": false,
+      "keywords": [
+        "Distributed tracing",
+        "Correlation IDs",
+        "Grafana dashboards",
+        "Log shipping (ELK)",
+        "Throughput metrics"
+      ]
     },
     {
       "id": "t2-19",
       "topic": "Vendor Chaining",
-      "question": "Alerting.",
-      "mastered": false
+      "question": "Describe your alerting thresholds. At what point does a vendor anomaly trigger a page to the on-call engineer?",
+      "mastered": false,
+      "keywords": [
+        "Error rate spikes",
+        "Sustained latency",
+        "Circuit breaker trips",
+        "PagerDuty integration",
+        "False positive reduction"
+      ]
     },
     {
       "id": "t2-20",
       "topic": "Vendor Chaining",
-      "question": "Scaling strategy.",
-      "mastered": false
+      "question": "How did you architect the scaling strategy for the chaining middleware to handle massive, concurrent traffic spikes?",
+      "mastered": false,
+      "keywords": [
+        "Stateless nodes",
+        "Auto-scaling groups",
+        "Connection pooling",
+        "Asynchronous I/O",
+        "Load balancing"
+      ]
     },
     {
       "id": "t2-21",
       "topic": "Covertrails",
-      "question": "System architecture.",
-      "mastered": false
+      "question": "Walk me through the high-level system architecture of Covertrails. How do the UI, AI agents, and AWS infrastructure communicate?",
+      "mastered": false,
+      "keywords": [
+        "ECS Containers",
+        "RDS databases",
+        "API orchestration",
+        "Claude integration",
+        "Asynchronous job queues"
+      ]
     },
     {
       "id": "t2-22",
       "topic": "Covertrails",
-      "question": "Multi-channel delivery.",
-      "mastered": false
+      "question": "How did you handle the delivery orchestration for multi-channel campaigns (Email, SMS, WhatsApp) concurrently?",
+      "mastered": false,
+      "keywords": [
+        "Fan-out pattern",
+        "Message queues (SQS/RabbitMQ)",
+        "Rate limits per channel",
+        "Delivery receipts",
+        "Webhook callbacks"
+      ]
     },
     {
       "id": "t2-23",
       "topic": "Covertrails",
-      "question": "Why ECS?",
-      "mastered": false
+      "question": "Why did you choose AWS ECS over EKS or direct EC2 deployments for this proprietary engagement engine?",
+      "mastered": false,
+      "keywords": [
+        "Operational overhead",
+        "Docker native",
+        "Fargate serverless compute",
+        "Cost efficiency",
+        "Simplified CI/CD"
+      ]
     },
     {
       "id": "t2-24",
       "topic": "Covertrails",
-      "question": "Why RDS?",
-      "mastered": false
+      "question": "What were the database scaling challenges with AWS RDS when processing hundreds of thousands of engagement events?",
+      "mastered": false,
+      "keywords": [
+        "Connection limits",
+        "Read replicas",
+        "Indexing strategy",
+        "Write throughput",
+        "Connection pooling (PgBouncer)"
+      ]
     },
     {
       "id": "t2-25",
       "topic": "Covertrails",
-      "question": "AI integration strategy.",
-      "mastered": false
+      "question": "Explain the AI integration strategy. How did you pipeline internal data securely to Claude without leaking PII?",
+      "mastered": false,
+      "keywords": [
+        "Data anonymization",
+        "Prompt engineering",
+        "Context windows",
+        "API gateways",
+        "Data masking"
+      ]
     },
     {
       "id": "t2-26",
       "topic": "Covertrails",
-      "question": "Claude usage.",
-      "mastered": false
+      "question": "Specifically, how did the AI coding agents (Claude) accelerate the prototyping of Covertrails? What limitations did you hit?",
+      "mastered": false,
+      "keywords": [
+        "Code generation",
+        "Boilerplate reduction",
+        "Architecture validation",
+        "Hallucinations",
+        "Manual code review strictness"
+      ]
     },
     {
       "id": "t2-27",
       "topic": "Covertrails",
-      "question": "Campaign segmentation.",
-      "mastered": false
+      "question": "How did the system architect dynamic campaign segmentation (e.g., targeting users whose policies expire in 7 days)?",
+      "mastered": false,
+      "keywords": [
+        "Dynamic queries",
+        "Indexed views",
+        "Cron schedulers",
+        "Batch processing",
+        "Caching segments"
+      ]
     },
     {
       "id": "t2-28",
       "topic": "Covertrails",
-      "question": "Cost optimization.",
-      "mastered": false
+      "question": "Covertrails eliminated up to ₹2,000,000 in monthly SaaS costs. Detail the cost optimization strategies used in your AWS architecture.",
+      "mastered": false,
+      "keywords": [
+        "Spot instances",
+        "Right-sizing compute",
+        "Database optimization",
+        "Data retention policies",
+        "S3 lifecycle rules"
+      ]
     },
     {
       "id": "t2-29",
       "topic": "Covertrails",
-      "question": "Failure handling.",
-      "mastered": false
+      "question": "How did you handle failure handling and retries for third-party SMS/WhatsApp gateway timeouts?",
+      "mastered": false,
+      "keywords": [
+        "Dead-letter queues",
+        "Exponential backoff",
+        "Idempotency keys",
+        "Delivery status webhooks",
+        "State reconciliation"
+      ]
     },
     {
       "id": "t2-30",
       "topic": "Covertrails",
-      "question": "Future improvements.",
-      "mastered": false
+      "question": "What are the architectural bottlenecks in Covertrails right now, and how would you resolve them in the next iteration?",
+      "mastered": false,
+      "keywords": [
+        "Database write locks",
+        "Queue buildup",
+        "Microservice extraction",
+        "Caching layers",
+        "Event sourcing"
+      ]
     }
   ],
   "tier_3_leadership": [
     {
       "id": "t3-1",
       "topic": "Team Lead",
-      "question": "Handling underperformers.",
-      "mastered": false
+      "question": "Tell me about a time you had to manage an underperforming developer. What specific steps did you take to correct their trajectory?",
+      "mastered": false,
+      "keywords": [
+        "Root cause analysis",
+        "Actionable goals",
+        "Pair programming",
+        "Psychological safety",
+        "Clear documentation"
+      ]
     },
     {
       "id": "t3-2",
       "topic": "Team Lead",
-      "question": "Mentoring juniors.",
-      "mastered": false
+      "question": "Walk me through your methodology for mentoring junior engineers. How do you balance guiding them versus letting them struggle to learn?",
+      "mastered": false,
+      "keywords": [
+        "Socratic method",
+        "Hands-on environments (CTFs)",
+        "Unblocking",
+        "Code reviews",
+        "Delegation"
+      ]
     },
     {
       "id": "t3-3",
       "topic": "Team Lead",
-      "question": "Code review philosophy.",
-      "mastered": false
+      "question": "What is your code review philosophy? How do you enforce strict standards without slowing down feature delivery?",
+      "mastered": false,
+      "keywords": [
+        "Automated linting/formatting",
+        "Nitpicking vs Architecture",
+        "Mentorship moments",
+        "Asynchronous communication",
+        "CI/CD checks"
+      ]
     },
     {
       "id": "t3-4",
       "topic": "Team Lead",
-      "question": "Technical debt management.",
-      "mastered": false
+      "question": "Tell me about a time you had to push back on a Product Manager because a feature introduced too much technical debt.",
+      "mastered": false,
+      "keywords": [
+        "Stakeholder negotiation",
+        "Risk assessment",
+        "Business value vs Tech cost",
+        "Compromise",
+        "Documentation"
+      ]
     },
     {
       "id": "t3-5",
       "topic": "Team Lead",
-      "question": "Sprint estimation.",
-      "mastered": false
+      "question": "Walk me through your process for sprint estimation. How do you account for unknown unknowns when committing to deliverables?",
+      "mastered": false,
+      "keywords": [
+        "Velocity",
+        "Story points",
+        "Buffer time",
+        "Tech debt allocation",
+        "Spike tasks"
+      ]
     },
     {
       "id": "t3-6",
       "topic": "Team Lead",
-      "question": "Conflict resolution.",
-      "mastered": false
+      "question": "Describe a technical conflict within your squad (e.g., disagreement on architecture). How did you resolve it and drive consensus?",
+      "mastered": false,
+      "keywords": [
+        "Active listening",
+        "Data-driven decisions",
+        "Proof of Concept (PoC)",
+        "Compromise",
+        "Commit and deliver"
+      ]
     },
     {
       "id": "t3-7",
       "topic": "Team Lead",
-      "question": "Hiring decisions.",
-      "mastered": false
+      "question": "What specific technical or behavioral traits do you look for when interviewing candidates to join your engineering squad?",
+      "mastered": false,
+      "keywords": [
+        "Curiosity",
+        "Problem-solving approach",
+        "Cultural add",
+        "System design thinking",
+        "Communication clarity"
+      ]
     },
     {
       "id": "t3-8",
       "topic": "Team Lead",
-      "question": "Project prioritization.",
-      "mastered": false
+      "question": "How do you prioritize competing critical tasks (e.g., a production bug vs a major feature deadline)?",
+      "mastered": false,
+      "keywords": [
+        "Impact matrix",
+        "Customer-first approach",
+        "Delegation",
+        "Triaging",
+        "Stakeholder communication"
+      ]
     },
     {
       "id": "t3-9",
       "topic": "Team Lead",
-      "question": "Stakeholder management.",
-      "mastered": false
+      "question": "How do you translate complex technical architecture choices (like migrating to HTMX) into business value for non-technical stakeholders?",
+      "mastered": false,
+      "keywords": [
+        "Cost reduction",
+        "Time-to-market",
+        "User experience",
+        "Analogy usage",
+        "ROI (Return on Investment)"
+      ]
     },
     {
       "id": "t3-10",
       "topic": "Team Lead",
-      "question": "Engineering culture.",
-      "mastered": false
+      "question": "How do you actively foster a 'security-first' engineering culture within a fast-moving startup environment?",
+      "mastered": false,
+      "keywords": [
+        "CTF platforms",
+        "Shift-left security",
+        "Automated scanning",
+        "Blameless post-mortems",
+        "Continuous training"
+      ]
     }
   ],
   "tier_4_system_design": [
     {
       "id": "t4-1",
       "topic": "System Design",
-      "question": "Design URL Shortener.",
-      "mastered": false
+      "question": "Design a highly available URL Shortener service (like Bitly). Focus specifically on the hash generation algorithm and preventing database collisions.",
+      "mastered": false,
+      "keywords": [
+        "Base62 encoding",
+        "Collision resolution",
+        "Counter service / Zookeeper",
+        "Caching layer",
+        "Read-heavy workload"
+      ]
     },
     {
       "id": "t4-2",
       "topic": "System Design",
-      "question": "Design Rate Limiter.",
-      "mastered": false
+      "question": "Design a distributed Rate Limiter for a public API gateway capable of handling millions of requests per minute globally.",
+      "mastered": false,
+      "keywords": [
+        "Token Bucket Algorithm",
+        "Redis Cluster",
+        "Eventual consistency",
+        "Geographic routing",
+        "Latency overhead"
+      ]
     },
     {
       "id": "t4-3",
       "topic": "System Design",
-      "question": "Design Notification Platform.",
-      "mastered": false
+      "question": "Design a highly scalable Notification Platform supporting SMS, Email, and Push notifications with guaranteed delivery and user preference settings.",
+      "mastered": false,
+      "keywords": [
+        "Message queues (Kafka/RabbitMQ)",
+        "Workers",
+        "Idempotency",
+        "Retry limits",
+        "Third-party integrations"
+      ]
     },
     {
       "id": "t4-4",
       "topic": "System Design",
-      "question": "Design Insurance Quote Engine.",
-      "mastered": false
+      "question": "Design an Insurance Quote Engine. It must aggregate real-time pricing from 10 different APIs (some very slow) and guarantee a sub-2-second response.",
+      "mastered": false,
+      "keywords": [
+        "Fan-out / Scatter-Gather",
+        "Asynchronous I/O",
+        "Timeouts",
+        "Stale-cache fallback",
+        "WebSockets/SSE"
+      ]
     },
     {
       "id": "t4-5",
       "topic": "System Design",
-      "question": "Design Vendor Failover System.",
-      "mastered": false
+      "question": "Design a global Vendor Failover System. How do you synchronize state across multiple data centers during a region-wide outage?",
+      "mastered": false,
+      "keywords": [
+        "Active-Active architecture",
+        "Global traffic routing",
+        "Database replication lag",
+        "Circuit breakers",
+        "Split-brain problem"
+      ]
     },
     {
       "id": "t4-6",
       "topic": "System Design",
-      "question": "Design API Gateway.",
-      "mastered": false
+      "question": "Design a custom API Gateway from scratch. Outline the components needed for authentication, rate limiting, and request routing.",
+      "mastered": false,
+      "keywords": [
+        "Reverse proxy",
+        "Middleware pipelines",
+        "JWT verification",
+        "Connection pooling",
+        "High throughput"
+      ]
     },
     {
       "id": "t4-7",
       "topic": "System Design",
-      "question": "Design Job Scheduler.",
-      "mastered": false
+      "question": "Design a distributed Job Scheduler capable of executing billions of scheduled tasks precisely on time without duplicate execution.",
+      "mastered": false,
+      "keywords": [
+        "Time-wheel algorithm",
+        "Distributed locking",
+        "Leader election",
+        "Partitioning",
+        "At-least-once vs Exactly-once"
+      ]
     },
     {
       "id": "t4-8",
       "topic": "System Design",
-      "question": "Design WhatsApp Campaign Platform.",
-      "mastered": false
+      "question": "Design a high-volume WhatsApp Campaign Platform that must process and send 5 million personalized messages within a 1-hour window.",
+      "mastered": false,
+      "keywords": [
+        "Batch processing",
+        "Message brokering",
+        "Worker auto-scaling",
+        "API rate limit handling",
+        "Payload generation"
+      ]
     },
     {
       "id": "t4-9",
       "topic": "System Design",
-      "question": "Design Feature Flag System.",
-      "mastered": false
+      "question": "Design a dynamic Feature Flag system. How do you propagate flag changes to millions of connected client apps in under a second?",
+      "mastered": false,
+      "keywords": [
+        "In-memory cache",
+        "Pub/Sub broadcasting",
+        "Long polling / SSE",
+        "Rule evaluation engine",
+        "Fallback states"
+      ]
     },
     {
       "id": "t4-10",
       "topic": "System Design",
-      "question": "Design CI/CD Deployment Platform.",
-      "mastered": false
+      "question": "Design a secure, zero-downtime CI/CD deployment platform scaled to support 50 independent microservices.",
+      "mastered": false,
+      "keywords": [
+        "Blue/Green vs Canary",
+        "Artifact repositories",
+        "Database migration strategies",
+        "Rollback automation",
+        "Container orchestration"
+      ]
     }
   ],
   "dsa_problems": [
@@ -613,140 +1313,979 @@
       "category": "Arrays & Hashing",
       "title": "Two Sum",
       "leetcode_url": "https://leetcode.com/problems/two-sum/",
-      "completed": false
+      "completed": false,
+      "keywords": [
+        "Hash Map",
+        "One-pass",
+        "O(n) Time Complexity",
+        "O(n) Space Complexity",
+        "Complements"
+      ]
     },
     {
       "id": "dsa-2",
       "category": "Arrays & Hashing",
       "title": "Valid Anagram",
       "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
-      "completed": false
+      "completed": false,
+      "keywords": [
+        "Hash Map",
+        "Character frequency",
+        "Sorting array",
+        "O(n) Time Complexity",
+        "O(1) Space Complexity"
+      ]
     },
     {
       "id": "dsa-3",
-      "category": "Two Pointers",
-      "title": "Valid Palindrome",
-      "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
-      "completed": false
+      "category": "Arrays & Hashing",
+      "title": "Contains Duplicate",
+      "leetcode_url": "https://leetcode.com/problems/contains-duplicate/",
+      "completed": false,
+      "keywords": [
+        "Hash Set",
+        "Early exit",
+        "O(n) Time Complexity",
+        "O(n) Space Complexity"
+      ]
     },
     {
       "id": "dsa-4",
-      "category": "Two Pointers",
-      "title": "Container With Most Water",
-      "leetcode_url": "https://leetcode.com/problems/container-with-most-water/",
-      "completed": false
+      "category": "Arrays & Hashing",
+      "title": "Group Anagrams",
+      "leetcode_url": "https://leetcode.com/problems/group-anagrams/",
+      "completed": false,
+      "keywords": [
+        "Hash Map",
+        "Character count array as key",
+        "Sorting string as key",
+        "O(m * n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-5",
-      "category": "Sliding Window",
-      "title": "Best Time to Buy and Sell Stock",
-      "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
-      "completed": false
+      "category": "Arrays & Hashing",
+      "title": "Top K Frequent Elements",
+      "leetcode_url": "https://leetcode.com/problems/top-k-frequent-elements/",
+      "completed": false,
+      "keywords": [
+        "Hash Map",
+        "Min-Heap",
+        "Bucket Sort",
+        "O(n) Time Complexity (Bucket)"
+      ]
     },
     {
       "id": "dsa-6",
-      "category": "Sliding Window",
-      "title": "Longest Substring Without Repeating Characters",
-      "leetcode_url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-      "completed": false
+      "category": "Arrays & Hashing",
+      "title": "Product of Array Except Self",
+      "leetcode_url": "https://leetcode.com/problems/product-of-array-except-self/",
+      "completed": false,
+      "keywords": [
+        "Prefix array",
+        "Postfix array",
+        "O(n) Time Complexity",
+        "O(1) Extra Space (excluding output)"
+      ]
     },
     {
       "id": "dsa-7",
-      "category": "Linked List",
-      "title": "Reverse Linked List",
-      "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
-      "completed": false
+      "category": "Arrays & Hashing",
+      "title": "Encode and Decode Strings",
+      "leetcode_url": "https://leetcode.com/problems/encode-and-decode-strings/",
+      "completed": false,
+      "keywords": [
+        "Delimiter",
+        "String length prefix",
+        "Chunking",
+        "O(n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-8",
-      "category": "Linked List",
-      "title": "Merge Two Sorted Lists",
-      "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
-      "completed": false
+      "category": "Arrays & Hashing",
+      "title": "Longest Consecutive Sequence",
+      "leetcode_url": "https://leetcode.com/problems/longest-consecutive-sequence/",
+      "completed": false,
+      "keywords": [
+        "Hash Set",
+        "Identify sequence start",
+        "O(n) Time Complexity",
+        "No sorting allowed"
+      ]
     },
     {
       "id": "dsa-9",
-      "category": "Linked List",
-      "title": "Reorder List",
-      "leetcode_url": "https://leetcode.com/problems/reorder-list/",
-      "completed": false
+      "category": "Two Pointers",
+      "title": "Valid Palindrome",
+      "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
+      "completed": false,
+      "keywords": [
+        "Left and Right pointers",
+        "Alphanumeric check",
+        "In-place comparison",
+        "O(n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-10",
-      "category": "Trees",
-      "title": "Invert Binary Tree",
-      "leetcode_url": "https://leetcode.com/problems/invert-binary-tree/",
-      "completed": false
+      "category": "Two Pointers",
+      "title": "3Sum",
+      "leetcode_url": "https://leetcode.com/problems/3sum/",
+      "completed": false,
+      "keywords": [
+        "Sort array first",
+        "Fix one pointer, Two Pointers for rest",
+        "Skip duplicates",
+        "O(n^2) Time Complexity"
+      ]
     },
     {
       "id": "dsa-11",
-      "category": "Trees",
-      "title": "Maximum Depth of Binary Tree",
-      "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
-      "completed": false
+      "category": "Two Pointers",
+      "title": "Container With Most Water",
+      "leetcode_url": "https://leetcode.com/problems/container-with-most-water/",
+      "completed": false,
+      "keywords": [
+        "Max area",
+        "Shrinking window",
+        "Move shorter line",
+        "O(n) Time Complexity",
+        "Greedy approach"
+      ]
     },
     {
       "id": "dsa-12",
-      "category": "Trees",
-      "title": "Lowest Common Ancestor of a Binary Search Tree",
-      "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
-      "completed": false
+      "category": "Sliding Window",
+      "title": "Best Time to Buy and Sell Stock",
+      "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+      "completed": false,
+      "keywords": [
+        "Track minimum price",
+        "Track maximum profit",
+        "One-pass calculation",
+        "O(n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-13",
-      "category": "1D Dynamic Programming",
-      "title": "Climbing Stairs",
-      "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
-      "completed": false
+      "category": "Sliding Window",
+      "title": "Longest Substring Without Repeating Characters",
+      "leetcode_url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+      "completed": false,
+      "keywords": [
+        "Hash Set / Map",
+        "Left pointer adjustment",
+        "Dynamic window size",
+        "O(n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-14",
-      "category": "1D Dynamic Programming",
-      "title": "Coin Change",
-      "leetcode_url": "https://leetcode.com/problems/coin-change/",
-      "completed": false
+      "category": "Sliding Window",
+      "title": "Longest Repeating Character Replacement",
+      "leetcode_url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+      "completed": false,
+      "keywords": [
+        "Hash Map for frequencies",
+        "Max frequency character",
+        "Window length - max freq <= k",
+        "O(n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-15",
-      "category": "1D Dynamic Programming",
-      "title": "Longest Increasing Subsequence",
-      "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
-      "completed": false
+      "category": "Sliding Window",
+      "title": "Minimum Window Substring",
+      "leetcode_url": "https://leetcode.com/problems/minimum-window-substring/",
+      "completed": false,
+      "keywords": [
+        "Two Hash Maps (Need and Have)",
+        "Expand right pointer",
+        "Shrink left pointer to optimize",
+        "O(n) Time Complexity"
+      ]
     },
     {
       "id": "dsa-16",
-      "category": "Graphs",
-      "title": "Number of Islands",
-      "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
-      "completed": false
-    },
-    {
-      "id": "dsa-17",
-      "category": "Graphs",
-      "title": "Clone Graph",
-      "leetcode_url": "https://leetcode.com/problems/clone-graph/",
-      "completed": false
-    },
-    {
-      "id": "dsa-18",
       "category": "Stack",
       "title": "Valid Parentheses",
       "leetcode_url": "https://leetcode.com/problems/valid-parentheses/",
-      "completed": false
+      "completed": false,
+      "keywords": [
+        "Stack data structure",
+        "Hash Map for pairs",
+        "LIFO",
+        "O(n) Time Complexity"
+      ]
     },
     {
-      "id": "dsa-19",
+      "id": "dsa-17",
+      "category": "Stack",
+      "title": "Find Minimum in Rotated Sorted Array",
+      "leetcode_url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+      "completed": false,
+      "keywords": [
+        "Binary Search",
+        "Compare mid with right pointer",
+        "O(log n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-18",
       "category": "Binary Search",
       "title": "Search in Rotated Sorted Array",
       "leetcode_url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
-      "completed": false
+      "completed": false,
+      "keywords": [
+        "Binary Search",
+        "Identify sorted half",
+        "Adjust left/right pointers",
+        "O(log n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-19",
+      "category": "Linked List",
+      "title": "Reverse Linked List",
+      "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
+      "completed": false,
+      "keywords": [
+        "Iterative vs Recursive",
+        "Previous pointer",
+        "Current pointer",
+        "Next pointer",
+        "O(1) Space"
+      ]
     },
     {
       "id": "dsa-20",
+      "category": "Linked List",
+      "title": "Merge Two Sorted Lists",
+      "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+      "completed": false,
+      "keywords": [
+        "Dummy node",
+        "Two pointers",
+        "In-place splicing",
+        "O(n+m) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-21",
+      "category": "Linked List",
+      "title": "Reorder List",
+      "leetcode_url": "https://leetcode.com/problems/reorder-list/",
+      "completed": false,
+      "keywords": [
+        "Find middle (Fast/Slow pointers)",
+        "Reverse second half",
+        "Merge two halves",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-22",
+      "category": "Linked List",
+      "title": "Remove Nth Node From End of List",
+      "leetcode_url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+      "completed": false,
+      "keywords": [
+        "Dummy node",
+        "Two pointers (Left/Right)",
+        "Gap of N nodes",
+        "One-pass solution"
+      ]
+    },
+    {
+      "id": "dsa-23",
+      "category": "Linked List",
+      "title": "Linked List Cycle",
+      "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
+      "completed": false,
+      "keywords": [
+        "Floyd's Tortoise and Hare",
+        "Fast and slow pointers",
+        "O(1) Space Complexity",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-24",
+      "category": "Linked List",
+      "title": "Merge k Sorted Lists",
+      "leetcode_url": "https://leetcode.com/problems/merge-k-sorted-lists/",
+      "completed": false,
+      "keywords": [
+        "Min-Heap / Priority Queue",
+        "Divide and Conquer (Merge Sort logic)",
+        "O(N log k) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-25",
+      "category": "Trees",
+      "title": "Invert Binary Tree",
+      "leetcode_url": "https://leetcode.com/problems/invert-binary-tree/",
+      "completed": false,
+      "keywords": [
+        "Recursion",
+        "DFS / BFS",
+        "Swap children",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-26",
+      "category": "Trees",
+      "title": "Maximum Depth of Binary Tree",
+      "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+      "completed": false,
+      "keywords": [
+        "Recursion",
+        "DFS",
+        "Max(left, right) + 1",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-27",
+      "category": "Trees",
+      "title": "Same Tree",
+      "leetcode_url": "https://leetcode.com/problems/same-tree/",
+      "completed": false,
+      "keywords": [
+        "Recursion",
+        "Compare root values",
+        "Check left and right subtrees concurrently",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-28",
+      "category": "Trees",
+      "title": "Subtree of Another Tree",
+      "leetcode_url": "https://leetcode.com/problems/subtree-of-another-tree/",
+      "completed": false,
+      "keywords": [
+        "Same Tree helper function",
+        "DFS traversal",
+        "O(m * n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-29",
+      "category": "Trees",
+      "title": "Lowest Common Ancestor of a Binary Search Tree",
+      "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+      "completed": false,
+      "keywords": [
+        "BST properties",
+        "Value comparison",
+        "Iterative traversal",
+        "O(h) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-30",
+      "category": "Trees",
+      "title": "Binary Tree Level Order Traversal",
+      "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+      "completed": false,
+      "keywords": [
+        "BFS",
+        "Queue data structure",
+        "Level length tracking",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-31",
+      "category": "Trees",
+      "title": "Validate Binary Search Tree",
+      "leetcode_url": "https://leetcode.com/problems/validate-binary-search-tree/",
+      "completed": false,
+      "keywords": [
+        "Recursion with boundaries (min/max)",
+        "Inorder traversal (strictly increasing)",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-32",
+      "category": "Trees",
+      "title": "Kth Smallest Element in a BST",
+      "leetcode_url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+      "completed": false,
+      "keywords": [
+        "Inorder traversal",
+        "Stack for iterative",
+        "Counter variable",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-33",
+      "category": "Trees",
+      "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+      "leetcode_url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
+      "completed": false,
+      "keywords": [
+        "Recursion",
+        "Preorder root identification",
+        "Inorder array splitting",
+        "Hash Map for indices"
+      ]
+    },
+    {
+      "id": "dsa-34",
+      "category": "Trees",
+      "title": "Binary Tree Maximum Path Sum",
+      "leetcode_url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+      "completed": false,
+      "keywords": [
+        "DFS",
+        "Global max variable",
+        "Split paths vs continuous paths",
+        "Ignore negative sums"
+      ]
+    },
+    {
+      "id": "dsa-35",
+      "category": "Trees",
+      "title": "Serialize and Deserialize Binary Tree",
+      "leetcode_url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
+      "completed": false,
+      "keywords": [
+        "Preorder traversal",
+        "Null markers (e.g., 'N')",
+        "String builder / Array joining",
+        "DFS for both serialization and deserialization"
+      ]
+    },
+    {
+      "id": "dsa-36",
+      "category": "Tries",
+      "title": "Implement Trie (Prefix Tree)",
+      "leetcode_url": "https://leetcode.com/problems/implement-trie-prefix-tree/",
+      "completed": false,
+      "keywords": [
+        "TrieNode class",
+        "Hash Map or Array for children",
+        "End of word boolean",
+        "O(L) Time per word"
+      ]
+    },
+    {
+      "id": "dsa-37",
+      "category": "Tries",
+      "title": "Design Add and Search Words Data Structure",
+      "leetcode_url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/",
+      "completed": false,
+      "keywords": [
+        "Trie structure",
+        "DFS for '.' wildcard search",
+        "Backtracking",
+        "O(26^M) worst case for wildcard"
+      ]
+    },
+    {
+      "id": "dsa-38",
+      "category": "Tries",
+      "title": "Word Search II",
+      "leetcode_url": "https://leetcode.com/problems/word-search-ii/",
+      "completed": false,
+      "keywords": [
+        "Trie for prefix matching",
+        "DFS / Backtracking on grid",
+        "Visited set",
+        "Pruning optimized"
+      ]
+    },
+    {
+      "id": "dsa-39",
+      "category": "Heap / Priority Queue",
+      "title": "Find Median from Data Stream",
+      "leetcode_url": "https://leetcode.com/problems/find-median-from-data-stream/",
+      "completed": false,
+      "keywords": [
+        "Two Heaps",
+        "Max-Heap for smaller half",
+        "Min-Heap for larger half",
+        "Balance heaps step",
+        "O(log n) insert"
+      ]
+    },
+    {
+      "id": "dsa-40",
+      "category": "Graphs",
+      "title": "Number of Islands",
+      "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
+      "completed": false,
+      "keywords": [
+        "DFS / BFS",
+        "Grid traversal",
+        "Visited matrix / Modifying grid",
+        "O(m*n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-41",
+      "category": "Graphs",
+      "title": "Clone Graph",
+      "leetcode_url": "https://leetcode.com/problems/clone-graph/",
+      "completed": false,
+      "keywords": [
+        "Hash Map for visited nodes",
+        "DFS / BFS traversal",
+        "Deep copy",
+        "O(V + E) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-42",
+      "category": "Graphs",
+      "title": "Pacific Atlantic Water Flow",
+      "leetcode_url": "https://leetcode.com/problems/pacific-atlantic-water-flow/",
+      "completed": false,
+      "keywords": [
+        "DFS from oceans inward",
+        "Visited sets for both oceans",
+        "Intersection of sets",
+        "O(m*n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-43",
+      "category": "Graphs",
+      "title": "Course Schedule",
+      "leetcode_url": "https://leetcode.com/problems/course-schedule/",
+      "completed": false,
+      "keywords": [
+        "Directed Graph",
+        "Cycle detection",
+        "DFS / Topological Sort (Kahn's)",
+        "Adjacency list",
+        "Visited states (unvisited, visiting, visited)"
+      ]
+    },
+    {
+      "id": "dsa-44",
+      "category": "Graphs",
+      "title": "Number of Connected Components in an Undirected Graph",
+      "leetcode_url": "https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/",
+      "completed": false,
+      "keywords": [
+        "Union-Find / Disjoint Set",
+        "DFS / BFS",
+        "Parent array",
+        "Path compression"
+      ]
+    },
+    {
+      "id": "dsa-45",
+      "category": "Graphs",
+      "title": "Graph Valid Tree",
+      "leetcode_url": "https://leetcode.com/problems/graph-valid-tree/",
+      "completed": false,
+      "keywords": [
+        "No cycles check",
+        "Fully connected check",
+        "Union-Find or DFS",
+        "Edges == Nodes - 1 rule"
+      ]
+    },
+    {
+      "id": "dsa-46",
+      "category": "Graphs",
+      "title": "Alien Dictionary",
+      "leetcode_url": "https://leetcode.com/problems/alien-dictionary/",
+      "completed": false,
+      "keywords": [
+        "Topological Sort",
+        "Directed Acyclic Graph (DAG)",
+        "In-degree array",
+        "Cycle detection"
+      ]
+    },
+    {
+      "id": "dsa-47",
+      "category": "1D Dynamic Programming",
+      "title": "Climbing Stairs",
+      "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
+      "completed": false,
+      "keywords": [
+        "Fibonacci sequence",
+        "Bottom-up DP",
+        "Memoization",
+        "O(n) Time Complexity",
+        "O(1) Space Complexity"
+      ]
+    },
+    {
+      "id": "dsa-48",
+      "category": "1D Dynamic Programming",
+      "title": "Coin Change",
+      "leetcode_url": "https://leetcode.com/problems/coin-change/",
+      "completed": false,
+      "keywords": [
+        "Bottom-up DP",
+        "State transition equation",
+        "Infinity initialization",
+        "O(amount * coins) Time"
+      ]
+    },
+    {
+      "id": "dsa-49",
+      "category": "1D Dynamic Programming",
+      "title": "Longest Increasing Subsequence",
+      "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+      "completed": false,
+      "keywords": [
+        "Dynamic Programming array",
+        "O(n^2) Time Complexity",
+        "Binary search optimization (O(n log n))",
+        "Subproblem dependencies"
+      ]
+    },
+    {
+      "id": "dsa-50",
+      "category": "1D Dynamic Programming",
+      "title": "Maximum Product Subarray",
+      "leetcode_url": "https://leetcode.com/problems/maximum-product-subarray/",
+      "completed": false,
+      "keywords": [
+        "Track running max and min",
+        "Handle negative numbers flipping signs",
+        "Zero resets sequence",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-51",
+      "category": "1D Dynamic Programming",
+      "title": "Word Break",
+      "leetcode_url": "https://leetcode.com/problems/word-break/",
+      "completed": false,
+      "keywords": [
+        "Bottom-up DP boolean array",
+        "Check dictionary words",
+        "Nested loops",
+        "O(n * m) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-52",
+      "category": "1D Dynamic Programming",
+      "title": "Combination Sum",
+      "leetcode_url": "https://leetcode.com/problems/combination-sum/",
+      "completed": false,
+      "keywords": [
+        "Backtracking",
+        "Decision tree",
+        "Include/Exclude branches",
+        "Base cases (sum == target, sum > target)"
+      ]
+    },
+    {
+      "id": "dsa-53",
+      "category": "1D Dynamic Programming",
+      "title": "House Robber",
+      "leetcode_url": "https://leetcode.com/problems/house-robber/",
+      "completed": false,
+      "keywords": [
+        "Bottom-up DP",
+        "Two variables (rob1, rob2)",
+        "Max(rob1 + n, rob2)",
+        "O(n) Time Complexity",
+        "O(1) Space"
+      ]
+    },
+    {
+      "id": "dsa-54",
+      "category": "1D Dynamic Programming",
+      "title": "House Robber II",
+      "leetcode_url": "https://leetcode.com/problems/house-robber-ii/",
+      "completed": false,
+      "keywords": [
+        "Circular array logic",
+        "Run House Robber 1 twice",
+        "Max(skip first, skip last)",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-55",
+      "category": "1D Dynamic Programming",
+      "title": "Decode Ways",
+      "leetcode_url": "https://leetcode.com/problems/decode-ways/",
+      "completed": false,
+      "keywords": [
+        "Bottom-up DP",
+        "Handling '0' edge cases",
+        "Single digit vs Double digit checks",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-56",
+      "category": "2D Dynamic Programming",
+      "title": "Unique Paths",
+      "leetcode_url": "https://leetcode.com/problems/unique-paths/",
+      "completed": false,
+      "keywords": [
+        "2D Grid DP",
+        "dp[i][j] = dp[i-1][j] + dp[i][j-1]",
+        "Row-by-row optimization",
+        "O(m*n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-57",
+      "category": "2D Dynamic Programming",
+      "title": "Longest Common Subsequence",
+      "leetcode_url": "https://leetcode.com/problems/longest-common-subsequence/",
+      "completed": false,
+      "keywords": [
+        "2D Matrix DP",
+        "Diagonal match increment",
+        "Max of Right or Down on mismatch",
+        "O(n*m) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-58",
+      "category": "Greedy",
+      "title": "Maximum Subarray",
+      "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
+      "completed": false,
+      "keywords": [
+        "Kadane's Algorithm",
+        "Running sum",
+        "Reset sum if negative",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-59",
+      "category": "Greedy",
+      "title": "Jump Game",
+      "leetcode_url": "https://leetcode.com/problems/jump-game/",
+      "completed": false,
+      "keywords": [
+        "Greedy approach",
+        "Shift goal post backwards",
+        "O(n) Time Complexity",
+        "O(1) Space"
+      ]
+    },
+    {
+      "id": "dsa-60",
+      "category": "Intervals",
+      "title": "Insert Interval",
+      "leetcode_url": "https://leetcode.com/problems/insert-interval/",
+      "completed": false,
+      "keywords": [
+        "Iterate and compare",
+        "Three phases (before, overlapping, after)",
+        "Update min/max for overlap",
+        "O(n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-61",
       "category": "Intervals",
       "title": "Merge Intervals",
       "leetcode_url": "https://leetcode.com/problems/merge-intervals/",
-      "completed": false
+      "completed": false,
+      "keywords": [
+        "Sort by start time",
+        "Iterate and compare",
+        "Update end time",
+        "O(n log n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-62",
+      "category": "Intervals",
+      "title": "Non-overlapping Intervals",
+      "leetcode_url": "https://leetcode.com/problems/non-overlapping-intervals/",
+      "completed": false,
+      "keywords": [
+        "Sort by end time",
+        "Greedy approach",
+        "Count overlaps to remove",
+        "O(n log n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-63",
+      "category": "Intervals",
+      "title": "Meeting Rooms",
+      "leetcode_url": "https://leetcode.com/problems/meeting-rooms/",
+      "completed": false,
+      "keywords": [
+        "Sort by start time",
+        "Compare adjacent intervals",
+        "Overlap boolean check",
+        "O(n log n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-64",
+      "category": "Intervals",
+      "title": "Meeting Rooms II",
+      "leetcode_url": "https://leetcode.com/problems/meeting-rooms-ii/",
+      "completed": false,
+      "keywords": [
+        "Two arrays (Start and End times)",
+        "Sort both arrays",
+        "Two Pointers",
+        "Track max concurrent rooms"
+      ]
+    },
+    {
+      "id": "dsa-65",
+      "category": "Math & Geometry",
+      "title": "Rotate Image",
+      "leetcode_url": "https://leetcode.com/problems/rotate-image/",
+      "completed": false,
+      "keywords": [
+        "In-place modification",
+        "Transpose matrix",
+        "Reverse rows",
+        "O(n^2) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-66",
+      "category": "Math & Geometry",
+      "title": "Spiral Matrix",
+      "leetcode_url": "https://leetcode.com/problems/spiral-matrix/",
+      "completed": false,
+      "keywords": [
+        "Four boundaries (Top, Bottom, Left, Right)",
+        "While loop condition",
+        "Update boundaries post-traversal",
+        "O(m*n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-67",
+      "category": "Math & Geometry",
+      "title": "Set Matrix Zeroes",
+      "leetcode_url": "https://leetcode.com/problems/set-matrix-zeroes/",
+      "completed": false,
+      "keywords": [
+        "In-place modification",
+        "First row and col as markers",
+        "O(1) Space Complexity",
+        "O(m*n) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-68",
+      "category": "Bit Manipulation",
+      "title": "Number of 1 Bits",
+      "leetcode_url": "https://leetcode.com/problems/number-of-1-bits/",
+      "completed": false,
+      "keywords": [
+        "Bitwise AND",
+        "n & (n-1) trick",
+        "Bit shifting",
+        "O(1) Time Complexity (32 iterations)"
+      ]
+    },
+    {
+      "id": "dsa-69",
+      "category": "Bit Manipulation",
+      "title": "Counting Bits",
+      "leetcode_url": "https://leetcode.com/problems/counting-bits/",
+      "completed": false,
+      "keywords": [
+        "Dynamic Programming",
+        "dp[i] = dp[i >> 1] + (i & 1)",
+        "O(n) Time Complexity",
+        "Offset pattern"
+      ]
+    },
+    {
+      "id": "dsa-70",
+      "category": "Bit Manipulation",
+      "title": "Reverse Bits",
+      "leetcode_url": "https://leetcode.com/problems/reverse-bits/",
+      "completed": false,
+      "keywords": [
+        "Bitwise AND",
+        "Bit Shifting",
+        "Bitwise OR",
+        "O(1) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-71",
+      "category": "Bit Manipulation",
+      "title": "Missing Number",
+      "leetcode_url": "https://leetcode.com/problems/missing-number/",
+      "completed": false,
+      "keywords": [
+        "XOR approach",
+        "Gauss's formula (Sum of n)",
+        "O(n) Time Complexity",
+        "O(1) Space"
+      ]
+    },
+    {
+      "id": "dsa-72",
+      "category": "Bit Manipulation",
+      "title": "Sum of Two Integers",
+      "leetcode_url": "https://leetcode.com/problems/sum-of-two-integers/",
+      "completed": false,
+      "keywords": [
+        "XOR for addition without carry",
+        "AND and Shift for carry",
+        "While loop",
+        "Language specific overflow handling"
+      ]
+    },
+    {
+      "id": "dsa-73",
+      "category": "Strings",
+      "title": "Longest Palindromic Substring",
+      "leetcode_url": "https://leetcode.com/problems/longest-palindromic-substring/",
+      "completed": false,
+      "keywords": [
+        "Expand around center",
+        "Odd and Even length checks",
+        "O(n^2) Time Complexity",
+        "O(1) Space"
+      ]
+    },
+    {
+      "id": "dsa-74",
+      "category": "Strings",
+      "title": "Palindromic Substrings",
+      "leetcode_url": "https://leetcode.com/problems/palindromic-substrings/",
+      "completed": false,
+      "keywords": [
+        "Expand around center",
+        "Count increments",
+        "Odd and Even length checks",
+        "O(n^2) Time Complexity"
+      ]
+    },
+    {
+      "id": "dsa-75",
+      "category": "Strings",
+      "title": "Valid Anagram",
+      "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
+      "completed": false,
+      "keywords": [
+        "Hash Map",
+        "Character frequency",
+        "Sorting array",
+        "O(n) Time Complexity"
+      ]
     }
   ],
   "daily_tips": [

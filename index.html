@@ -612,6 +612,17 @@
                       <div class="flex-1 py-1 overflow-y-auto pr-1 flex flex-col justify-between items-center w-full">
                         <p class="text-xs sm:text-sm font-bold leading-relaxed mb-2" x-text="task.question"></p>
                         
+                        <!-- Keywords Tags on Flashcard Back -->
+                        <template x-if="(() => { const qb = questionBank; const allQs = [...(qb?.tier_1_core||[]), ...(qb?.tier_2_resume||[]), ...(qb?.tier_3_leadership||[]), ...(qb?.tier_4_system_design||[])]; const match = allQs.find(q => q.id === task.id); return match && match.keywords && match.keywords.length > 0; })()">
+                          <div class="flex flex-wrap gap-1 mb-2 justify-center">
+                            <template x-for="kw in (() => { const qb = questionBank; const allQs = [...(qb?.tier_1_core||[]), ...(qb?.tier_2_resume||[]), ...(qb?.tier_3_leadership||[]), ...(qb?.tier_4_system_design||[])]; const match = allQs.find(q => q.id === task.id); return match?.keywords || []; })()" :key="kw">
+                              <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full"
+                                    :class="darkMode ? 'bg-slate-800 text-slate-400 border border-slate-700/50' : 'bg-slate-100 text-slate-500 border border-slate-200'"
+                                    x-text="kw"></span>
+                            </template>
+                          </div>
+                        </template>
+
                         <!-- Notes Textarea -->
                         <div class="w-full mt-1">
                           <textarea placeholder="Write down your key design points or notes here..."
@@ -669,7 +680,7 @@
               Curriculum & Question Bank Explorer
             </h2>
             <p class="text-xs text-slate-400 mt-1 font-medium">
-              Study the complete list of 100 core topics/questions and 20 DSA problems. Update your progress directly from here.
+              Study the complete list of 100 core topics/questions and 75 Blind 75 DSA problems. Update your progress directly from here.
             </p>
           </div>
           
@@ -739,7 +750,7 @@
                       ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-500/25'
                       : (darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm')
                   ]">
-            Blind 75 DSA (20)
+            Blind 75 DSA (75)
           </button>
         </div>
 
@@ -776,6 +787,15 @@
 
                     <!-- Question content -->
                     <h4 class="text-sm sm:text-base font-bold mt-4 text-slate-800 dark:text-slate-200" x-text="q.question"></h4>
+
+                    <!-- Keywords Tags -->
+                    <div x-show="q.keywords && q.keywords.length > 0" class="flex flex-wrap gap-1.5 mt-3">
+                      <template x-for="kw in (q.keywords || [])" :key="kw">
+                        <span class="text-[9px] font-bold px-2 py-0.5 rounded-full tracking-wide transition-colors"
+                              :class="darkMode ? 'bg-slate-800 text-slate-400 border border-slate-700/50' : 'bg-slate-100 text-slate-500 border border-slate-200'"
+                              x-text="kw"></span>
+                      </template>
+                    </div>
 
                     <!-- Study Notes textarea in Explorer -->
                     <div class="mt-4">
@@ -855,6 +875,15 @@
 
                     <!-- Question content -->
                     <h4 class="text-base font-bold mt-4 text-slate-800 dark:text-slate-200" x-text="p.title"></h4>
+
+                    <!-- Keywords Tags -->
+                    <div x-show="p.keywords && p.keywords.length > 0" class="flex flex-wrap gap-1.5 mt-3">
+                      <template x-for="kw in (p.keywords || [])" :key="kw">
+                        <span class="text-[9px] font-bold px-2 py-0.5 rounded-full tracking-wide transition-colors"
+                              :class="darkMode ? 'bg-slate-800 text-slate-400 border border-slate-700/50' : 'bg-slate-100 text-slate-500 border border-slate-200'"
+                              x-text="kw"></span>
+                      </template>
+                    </div>
                   </div>
 
                   <!-- DSA Actions -->
