@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuvi Tracker - Interview Prep Companion</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="An interactive, gamified software engineering interview preparation tracker. Tracks Blind 75 DSA progress and daily core interview topics with fitness-style rings and contribution calendars.">
+  <meta name="keywords" content="Interview Prep, Software Engineer, LeetCode, Blind 75, DSA, System Design, Alpine.js, Tailwind CSS">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dsa: {
+              DEFAULT: '#ef4444', // red-500
+              glow: 'rgba(239, 68, 68, 0.35)',
+              bg: 'rgba(239, 68, 68, 0.1)'
+            },
+            core: {
+              DEFAULT: '#10b981', // emerald-500
+              glow: 'rgba(16, 185, 129, 0.35)',
+              bg: 'rgba(16, 185, 129, 0.1)'
+            },
+            arch: {
+              DEFAULT: '#3b82f6', // blue-500
+              glow: 'rgba(59, 130, 246, 0.35)',
+              bg: 'rgba(59, 130, 246, 0.1)'
+            },
+            panel: {
+              dark: 'rgba(15, 23, 42, 0.65)',
+              light: 'rgba(255, 255, 255, 0.75)'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
+  <!-- App JS -->
+  <script src="app.js"></script>
+</head>
+<body class="min-h-screen grid-bg font-sans transition-colors duration-300"
+      :class="darkMode ? 'bg-[#090d16] text-slate-100' : 'bg-slate-50 text-slate-800'"
+      x-data="app">
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-cloak>
+    
+    <!-- Header Section -->
+    <header class="flex flex-col md:flex-row md:items-center md:justify-between pb-6 mb-8 border-b transition-colors duration-300"
+            :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+      
+      <!-- Brand & Title -->
+      <div class="mb-4 md:mb-0">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-3">
+          <i class="fa-solid fa-circle-nodes gradient-text"></i>
+          <span class="gradient-text">Yuvi Tracker</span>
+        </h1>
+        <p class="mt-1 text-sm text-slate-400 font-medium">
+          Gamified Daily Software Engineering Interview Preparation
+        </p>
+      </div>
+
+      <!-- Controls & Streaks -->
+      <div class="flex flex-wrap items-center gap-4">
+        
+        <!-- Streaks Counters -->
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300"
+             :class="darkMode ? 'bg-slate-900/60 border border-slate-800' : 'bg-white border border-slate-200 shadow-sm'">
+          <div class="flex items-center gap-1.5 tooltip-trigger">
+            <span class="text-orange-500 font-bold text-lg"><i class="fa-solid fa-fire animate-pulse"></i></span>
+            <span class="text-sm font-semibold" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">Streak:</span>
+            <span class="font-extrabold text-base" x-text="userState?.current_streak || 0"></span>
+            
+            <!-- Tooltip -->
+            <div class="tooltip-content absolute bottom-full mb-2 left-1/2 bg-slate-950 text-white text-xs px-2.5 py-1 rounded shadow-lg whitespace-nowrap z-50">
+              Current consecutive active days
+            </div>
+          </div>
+          
+          <div class="h-4 w-px bg-slate-700/50"></div>
+          
+          <div class="flex items-center gap-1.5 tooltip-trigger">
+            <span class="text-yellow-500 font-bold text-lg"><i class="fa-solid fa-trophy"></i></span>
+            <span class="text-sm font-semibold" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">Best:</span>
+            <span class="font-extrabold text-base" x-text="userState?.longest_streak || 0"></span>
+            
+            <!-- Tooltip -->
+            <div class="tooltip-content absolute bottom-full mb-2 left-1/2 bg-slate-950 text-white text-xs px-2.5 py-1 rounded shadow-lg whitespace-nowrap z-50">
+              Longest streak achieved
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Tools -->
+        <div class="flex items-center gap-2">
+          
+          <!-- Mock Interview Button -->
+          <button @click="startMockInterview()"
+                  class="p-2.5 rounded-xl text-white transition-all bg-indigo-600 hover:bg-indigo-500 text-sm font-semibold flex items-center gap-2 shadow-[0_4px_12px_rgba(79,70,229,0.2)]">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span class="hidden sm:inline">Mock Interview</span>
+          </button>
+
+          <!-- Sync Report Button -->
+          <button @click="generateWeeklyReport()"
+                  class="p-2.5 rounded-xl text-slate-300 hover:text-white transition-all bg-emerald-600 hover:bg-emerald-500 text-sm font-semibold flex items-center gap-2 shadow-[0_4px_12px_rgba(16,185,129,0.2)]">
+            <i class="fa-solid fa-file-export"></i>
+            <span class="hidden sm:inline">Sync Report</span>
+          </button>
+          
+          <!-- Backup Trigger -->
+          <button @click="showBackupModal = true"
+                  class="p-2.5 rounded-xl border transition-all text-sm font-semibold flex items-center gap-2"
+                  :class="darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-300 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span class="hidden sm:inline">Backup</span>
+          </button>
+
+          <!-- Reset Button -->
+          <button @click="resetProgress()"
+                  class="p-2.5 rounded-xl border border-rose-500/20 text-rose-500/80 hover:text-rose-500 hover:bg-rose-500/10 transition-all text-sm tooltip-trigger">
+            <i class="fa-solid fa-trash-can"></i>
+            
+            <!-- Tooltip -->
+            <div class="tooltip-content absolute bottom-full mb-2 left-1/2 bg-slate-950 text-white text-xs px-2.5 py-1 rounded shadow-lg whitespace-nowrap z-50">
+              Reset Progress
+            </div>
+          </button>
+
+          <!-- Light/Dark Mode Switcher -->
+          <button @click="toggleTheme()"
+                  class="p-2.5 rounded-xl border transition-all text-sm"
+                  :class="darkMode ? 'bg-slate-900/60 border-slate-800 text-yellow-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'">
+            <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT COLUMN: Dashboard Progress, Stats, Calendar (7 cols) -->
+      <section class="lg:col-span-7 space-y-8">
+        
+        <!-- Rings Dashboard Panel -->
+        <div class="rounded-3xl p-6 transition-all duration-300 glass-panel"
+             :class="darkMode ? 'glass-panel text-slate-100' : 'glass-panel-light text-slate-800'">
+          
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-circle-notch text-rose-500"></i>
+            Today's Rings
+          </h2>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-around gap-6">
+            
+            <!-- Concentric SVG Rings Container -->
+            <div class="relative w-52 h-52 flex items-center justify-center">
+              
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 200 200">
+                
+                <!-- Background Tracks -->
+                <circle cx="100" cy="100" r="80" fill="transparent"
+                        class="stroke-slate-200/10 dark:stroke-slate-800/40" stroke-width="12"/>
+                <circle cx="100" cy="100" r="60" fill="transparent"
+                        class="stroke-slate-200/10 dark:stroke-slate-800/40" stroke-width="12"/>
+                <circle cx="100" cy="100" r="40" fill="transparent"
+                        class="stroke-slate-200/10 dark:stroke-slate-800/40" stroke-width="12"/>
+                
+                <!-- Progress Rings -->
+                <!-- Outer: DSA (Red) -->
+                <circle cx="100" cy="100" r="80" fill="transparent"
+                        class="progress-ring-circle stroke-red-500 glow-dsa"
+                        stroke-width="12"
+                        stroke-linecap="round"
+                        stroke-dasharray="502.65"
+                        :stroke-dashoffset="getRingOffset('dsa')"/>
+                
+                <!-- Middle: Core (Green) -->
+                <circle cx="100" cy="100" r="60" fill="transparent"
+                        class="progress-ring-circle stroke-emerald-500 glow-core"
+                        stroke-width="12"
+                        stroke-linecap="round"
+                        stroke-dasharray="376.99"
+                        :stroke-dashoffset="getRingOffset('core')"/>
+                
+                <!-- Inner: Architecture (Blue) -->
+                <circle cx="100" cy="100" r="40" fill="transparent"
+                        class="progress-ring-circle stroke-blue-500 glow-arch"
+                        stroke-width="12"
+                        stroke-linecap="round"
+                        stroke-dasharray="251.33"
+                        :stroke-dashoffset="getRingOffset('architecture')"/>
+              </svg>
+              
+              <!-- Core Percentage Display Inside the Circle -->
+              <div class="absolute flex flex-col items-center justify-center text-center">
+                <span class="text-3xl font-extrabold tracking-tight"
+                      :class="darkMode ? 'text-white' : 'text-slate-800'"
+                      x-text="`${Math.round((getRingPercent('dsa') + getRingPercent('core') + getRingPercent('architecture')) / 3)}%`">
+                </span>
+                <span class="text-[10px] font-semibold tracking-wider uppercase opacity-60">
+                  Closed
+                </span>
+              </div>
+            </div>
+
+            <!-- Rings Stats details -->
+            <div class="flex flex-col gap-4 w-full sm:w-auto">
+              
+              <!-- Red: DSA -->
+              <div class="flex items-center gap-3 p-3 rounded-2xl transition-all"
+                   :class="darkMode ? 'bg-red-500/10 border border-red-500/20' : 'bg-red-50 border border-red-100'">
+                <div class="w-3.5 h-3.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+                <div class="flex-1">
+                  <div class="text-xs font-semibold uppercase opacity-60">DSA Problems</div>
+                  <div class="text-lg font-bold" x-text="userState?.history?.[todayStr]?.rings?.dsa ? `${userState.history[todayStr].rings.dsa.completed} / ${userState.history[todayStr].rings.dsa.target} completed` : '0 / 0 completed'"></div>
+                </div>
+                <span class="text-sm font-extrabold text-red-500" x-text="`${getRingPercent('dsa')}%`"></span>
+              </div>
+
+              <!-- Green: Core Knowledge -->
+              <div class="flex items-center gap-3 p-3 rounded-2xl transition-all"
+                   :class="darkMode ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-100'">
+                <div class="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
+                <div class="flex-1">
+                  <div class="text-xs font-semibold uppercase opacity-60">Core Knowledge</div>
+                  <div class="text-lg font-bold" x-text="userState?.history?.[todayStr]?.rings?.core_knowledge ? `${userState.history[todayStr].rings.core_knowledge.completed} / ${userState.history[todayStr].rings.core_knowledge.target} completed` : '0 / 0 completed'"></div>
+                </div>
+                <span class="text-sm font-extrabold text-emerald-500" x-text="`${getRingPercent('core')}%`"></span>
+              </div>
+
+              <!-- Blue: Architecture -->
+              <div class="flex items-center gap-3 p-3 rounded-2xl transition-all"
+                   :class="darkMode ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-blue-100'">
+                <div class="w-3.5 h-3.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></div>
+                <div class="flex-1">
+                  <div class="text-xs font-semibold uppercase opacity-60">Architecture</div>
+                  <div class="text-lg font-bold" x-text="userState?.history?.[todayStr]?.rings?.architecture ? `${userState.history[todayStr].rings.architecture.completed} / ${userState.history[todayStr].rings.architecture.target} completed` : '0 / 0 completed'"></div>
+                </div>
+                <span class="text-sm font-extrabold text-blue-500" x-text="`${getRingPercent('architecture')}%`"></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Overall progress Stats Grid -->
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Card: Questions Mastered -->
+          <div class="rounded-2xl p-5 border transition-all duration-300"
+               :class="darkMode ? 'bg-slate-900/40 border-slate-800/80 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-sm'">
+            <div class="flex items-center gap-3 mb-2 text-slate-400">
+              <i class="fa-solid fa-graduation-cap text-lg text-emerald-500"></i>
+              <span class="text-xs font-bold uppercase tracking-wider">Concept Mastery</span>
+            </div>
+            <div class="text-3xl font-extrabold" x-text="`${masteredCount} / ${totalQuestions}`"></div>
+            <div class="mt-2 text-xs font-semibold text-slate-500">
+              Mastery Rate: <span x-text="`${Math.round((masteredCount / totalQuestions) * 100) || 0}%`" class="text-emerald-500 font-bold"></span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+              <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" :style="`width: ${(masteredCount / totalQuestions) * 100}%`"></div>
+            </div>
+          </div>
+          
+          <!-- Card: DSA Completed -->
+          <div class="rounded-2xl p-5 border transition-all duration-300"
+               :class="darkMode ? 'bg-slate-900/40 border-slate-800/80 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-sm'">
+            <div class="flex items-center gap-3 mb-2 text-slate-400">
+              <i class="fa-solid fa-code text-lg text-red-500"></i>
+              <span class="text-xs font-bold uppercase tracking-wider">Blind 75 DSA</span>
+            </div>
+            <div class="text-3xl font-extrabold" x-text="`${dsaCompletedCount} / ${totalDsa}`"></div>
+            <div class="mt-2 text-xs font-semibold text-slate-500">
+              Completion Rate: <span x-text="`${Math.round((dsaCompletedCount / totalDsa) * 100) || 0}%`" class="text-red-500 font-bold"></span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+              <div class="bg-red-500 h-full rounded-full transition-all duration-500" :style="`width: ${(dsaCompletedCount / totalDsa) * 100}%`"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Streak Contribution Calendar -->
+        <div class="rounded-3xl p-6 transition-all duration-300"
+             :class="darkMode ? 'glass-panel text-slate-100' : 'glass-panel-light text-slate-800'">
+          
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <i class="fa-regular fa-calendar-check text-emerald-500"></i>
+            Preparation Calendar
+          </h2>
+          <p class="text-xs text-slate-400 mb-6 font-medium">
+            Visual calendar representation of interview preparation consistency over the last 13 weeks (91 days).
+          </p>
+
+          <!-- Contribution Grid Container -->
+          <div class="flex flex-col items-center">
+            
+            <div class="flex items-start gap-3 w-full overflow-x-auto pb-4">
+              <!-- Day of week labels -->
+              <div class="flex flex-col justify-between text-[10px] font-bold text-slate-500 h-28 pt-1">
+                <span>Sun</span>
+                <span>Tue</span>
+                <span>Thu</span>
+                <span>Sat</span>
+              </div>
+              
+              <!-- Grid -->
+              <div class="grid grid-flow-col grid-rows-7 gap-1.5 select-none pt-1">
+                <template x-for="day in contributionDays" :key="day.dateStr">
+                  <div class="w-3.5 h-3.5 rounded-sm contrib-day tooltip-trigger cursor-pointer"
+                       :class="getCalendarClass(day.dateStr)"
+                       :style="`color: ${day.ringsClosed === 3 ? '#10b981' : '#34d399'}`">
+                    
+                    <!-- Tooltip content -->
+                    <div class="tooltip-content absolute bottom-full mb-2 left-1/2 bg-slate-950 text-white text-xs px-2.5 py-1.5 rounded shadow-xl whitespace-nowrap z-50 leading-relaxed">
+                      <div class="font-bold text-slate-300" x-text="day.displayDate"></div>
+                      <div class="font-semibold" x-text="`${day.ringsClosed} Ring(s) Closed`"></div>
+                      <div class="text-[10px] text-slate-400 mt-0.5" x-text="day.details"></div>
+                    </div>
+
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Grid Legend -->
+            <div class="flex justify-end items-center gap-2 w-full mt-2 text-xs font-semibold text-slate-500 pr-2">
+              <span>Less</span>
+              <div class="w-3 h-3 rounded-sm bg-slate-100 dark:bg-slate-800/40 border dark:border-slate-700/20"></div>
+              <div class="w-3 h-3 rounded-sm bg-emerald-500/20 dark:bg-emerald-500/20 border border-emerald-500/20"></div>
+              <div class="w-3 h-3 rounded-sm bg-emerald-500/50 dark:bg-emerald-500/50 border border-emerald-500/40"></div>
+              <div class="w-3 h-3 rounded-sm bg-emerald-500 border border-emerald-400"></div>
+              <span>More</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Weekly Analytics Panel -->
+        <div class="rounded-3xl p-6 transition-all duration-300 glass-panel mt-6"
+             :class="darkMode ? 'glass-panel text-slate-100' : 'glass-panel-light text-slate-800'">
+          
+          <h2 class="text-xl font-bold mb-5 flex items-center gap-2">
+            <i class="fa-solid fa-chart-simple text-emerald-500"></i>
+            Weekly Analytics (Last 7 Days)
+          </h2>
+          
+          <div class="space-y-4">
+            <div class="grid grid-cols-7 gap-2 pt-2 items-end h-28 border-b"
+                 :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+              <template x-for="day in getLast7DaysStats()" :key="day.dateStr">
+                <div class="flex flex-col items-center gap-1 group relative">
+                  <!-- Tooltip -->
+                  <div class="tooltip-content absolute bottom-full mb-1 bg-slate-950 text-white text-[10px] p-2 rounded shadow-lg z-50 text-center pointer-events-none whitespace-nowrap">
+                    <div class="font-bold" x-text="day.label"></div>
+                    <div class="text-red-400" x-text="`DSA: ${day.dsaMins}m`"></div>
+                    <div class="text-emerald-400" x-text="`Concepts: ${day.conceptsCompleted}`"></div>
+                  </div>
+                  
+                  <!-- Two-layered progress bar -->
+                  <div class="w-full flex gap-1 justify-center items-end h-20">
+                    <!-- DSA Time bar (Red) -->
+                    <div class="w-2 rounded-t-sm bg-red-500/80 group-hover:bg-red-500 transition-all duration-300"
+                         :style="`height: ${Math.min((day.dsaMins / 90) * 100, 100)}%`"></div>
+                    <!-- Concepts Completed count bar (Green/Blue) -->
+                    <div class="w-2 rounded-t-sm bg-emerald-500/80 group-hover:bg-emerald-500 transition-all duration-300"
+                         :style="`height: ${Math.min((day.conceptsCompleted / 5) * 100, 100)}%`"></div>
+                  </div>
+                  
+                  <span class="text-[10px] font-bold text-slate-400 uppercase mt-1" x-text="day.shortName"></span>
+                </div>
+              </template>
+            </div>
+            
+            <!-- Legend indicators -->
+            <div class="flex items-center gap-4 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div class="flex items-center gap-1.5">
+                <div class="w-3 h-1.5 rounded-full bg-red-500"></div>
+                <span>DSA (Mins)</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <div class="w-3 h-1.5 rounded-full bg-emerald-500"></div>
+                <span>Concepts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Tasks & Flashcards Drawer (5 cols) -->
+      <section class="lg:col-span-5 space-y-6">
+        
+        <!-- Daily Tip Widget -->
+        <template x-if="userState?.history?.[todayStr]?.daily_tip">
+          <div class="rounded-2xl p-4 border transition-all flex items-start gap-3.5 leading-relaxed"
+               :class="darkMode 
+                 ? 'bg-amber-950/10 border-amber-500/20 text-amber-200 shadow-[0_2px_12px_rgba(245,158,11,0.03)]' 
+                 : 'bg-amber-50/50 border-amber-200/60 text-amber-800 shadow-sm'">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-amber-500/10 dark:bg-amber-500/20 text-amber-500">
+              <i class="fa-regular fa-lightbulb text-sm"></i>
+            </div>
+            <div>
+              <div class="text-[10px] font-extrabold uppercase tracking-widest text-amber-500/80 mb-0.5">Daily Prep Tip</div>
+              <p class="text-xs font-semibold" x-text="userState.history[todayStr].daily_tip"></p>
+            </div>
+          </div>
+        </template>
+
+        <div class="flex items-center justify-between pb-2">
+          <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-blue-500"></i>
+            Daily Tasks
+          </h2>
+          <span class="text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider transition-all"
+                :class="darkMode ? 'bg-slate-900/60 text-slate-300 border border-slate-800' : 'bg-slate-200/60 text-slate-700'">
+            <span x-text="userState?.history?.[todayStr]?.daily_tasks?.filter(t => t.completed)?.length || 0"></span> /
+            <span x-text="userState?.history?.[todayStr]?.daily_tasks?.length || 0"></span> Done
+          </span>
+        </div>
+
+        <!-- Daily Tasks List -->
+        <div class="space-y-4">
+          <template x-for="(task, index) in userState?.history[todayStr]?.daily_tasks" :key="task.id">
+            <div class="w-full">
+              <!-- DSA Problem Card -->
+              <div x-show="task.type === 'dsa'"
+                   class="rounded-3xl p-5 border transition-all duration-300 flex flex-col justify-between min-h-[160px]"
+                   :class="[
+                     task.completed 
+                       ? (darkMode ? 'bg-red-950/20 border-red-500/30' : 'bg-red-50/50 border-red-200')
+                       : (darkMode ? 'bg-slate-900/40 border-slate-800/80 hover:border-red-500/30' : 'bg-white border-slate-200 shadow-sm hover:border-red-300')
+                   ]">
+                  
+                  <div class="flex items-start justify-between gap-4">
+                    <div>
+                      <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-500/10 text-red-500 border border-red-500/10">
+                        DSA • <span x-text="task.category"></span>
+                      </span>
+                      <h3 class="text-lg font-bold mt-2" x-text="task.title"></h3>
+                    </div>
+                    
+                    <button @click="toggleDsaTask(task)"
+                            class="w-7 h-7 rounded-full flex items-center justify-center border transition-all"
+                            :class="[
+                              task.completed 
+                                ? 'bg-red-500 border-red-400 text-white' 
+                                : (darkMode ? 'border-slate-700 hover:border-red-500 text-transparent' : 'border-slate-300 hover:border-red-500 text-transparent')
+                            ]">
+                      <i class="fa-solid fa-check text-xs"></i>
+                    </button>
+                  </div>
+
+                  <div class="mt-4 pt-4 border-t flex flex-wrap items-center justify-between gap-4 transition-colors"
+                       :class="darkMode ? 'border-slate-800/50' : 'border-slate-100'">
+                    
+                    <!-- Leetcode Link -->
+                    <a :href="task.leetcode_url" target="_blank"
+                       class="text-xs font-bold text-red-500 hover:text-red-400 flex items-center gap-1.5">
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      Solve on LeetCode
+                    </a>
+
+                    <!-- Settings inputs -->
+                    <div class="flex items-center gap-3">
+                      
+                      <!-- Time Spent -->
+                      <div class="flex items-center gap-1">
+                        <span class="text-[10px] font-bold text-slate-500">Mins:</span>
+                        <input type="number" min="0" max="999"
+                               x-model.number="task.time_spent_mins"
+                               @input="saveState()"
+                               @click.stop
+                               class="w-12 text-center text-xs font-bold rounded-lg border p-1 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                               :class="darkMode ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-50 border-slate-200 text-slate-800'">
+                      </div>
+
+                      <!-- Difficulty -->
+                      <div class="flex items-center gap-1">
+                        <select x-model="task.difficulty"
+                                @change="saveState()"
+                                @click.stop
+                                class="text-[11px] font-bold rounded-lg border p-1 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                :class="darkMode ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-50 border-slate-200 text-slate-800'">
+                          <option value="Easy">Easy</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Hard">Hard</option>
+                        </select>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+              <!-- Question Card (Core Knowledge & Architecture) -->
+              <div x-show="task.type !== 'dsa'"
+                   class="flashcard w-full h-52 relative" 
+                   :class="task.revealed ? 'flipped' : ''">
+                <div class="flashcard-inner w-full h-full relative">
+                    
+                    <!-- CARD FRONT -->
+                    <div class="flashcard-front absolute w-full h-full rounded-3xl p-5 border flex flex-col justify-between"
+                         :class="[
+                           task.completed 
+                             ? (task.type === 'core' ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-blue-950/20 border-blue-500/30')
+                             : (darkMode ? 'bg-slate-900/40 border-slate-800/80 hover:border-slate-700' : 'bg-white border-slate-200 shadow-sm hover:border-slate-300')
+                         ]">
+                      
+                      <div class="flex items-start justify-between">
+                        <div>
+                          <!-- Label -->
+                          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                :class="[
+                                  task.type === 'core' 
+                                    ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/10'
+                                    : 'bg-blue-500/10 text-blue-500 border border-blue-500/10'
+                                ]">
+                            <span x-text="task.title"></span>
+                          </span>
+                          
+                          <div class="text-xs font-semibold text-slate-400 mt-2" x-text="task.category"></div>
+                        </div>
+                        
+                        <!-- Completed badge status -->
+                        <span x-show="task.completed"
+                              class="text-xs font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1.5"
+                              :class="task.mastered ? 'text-emerald-500 bg-emerald-500/10' : 'text-amber-500 bg-amber-500/10'">
+                          <i class="fa-solid" :class="task.mastered ? 'fa-square-check' : 'fa-clock-rotate-left'"></i>
+                          <span x-text="task.mastered ? 'Mastered' : 'Needs Review'"></span>
+                        </span>
+                      </div>
+
+                      <!-- Question teaser or prompt to reveal -->
+                      <div class="flex-1 flex flex-col justify-center items-center py-2 text-center">
+                        <div class="text-sm font-semibold opacity-60 uppercase tracking-widest text-slate-500">Topic</div>
+                        <div class="text-base font-extrabold px-4 mt-1" x-text="task.category"></div>
+                      </div>
+
+                      <div class="flex items-center justify-between pt-2 border-t"
+                           :class="darkMode ? 'border-slate-800/50' : 'border-slate-100'">
+                        
+                        <!-- Undo / Reset completion button -->
+                        <button x-show="task.completed"
+                                @click.stop="undoTask(task)"
+                                class="text-xs font-bold text-slate-500 hover:text-slate-400 flex items-center gap-1">
+                          <i class="fa-solid fa-rotate-left"></i> Undo Complete
+                        </button>
+                        <div x-show="!task.completed"></div>
+
+                        <!-- Reveal button -->
+                        <button @click="task.revealed = true"
+                                class="text-xs font-bold flex items-center gap-1.5 transition-colors"
+                                :class="task.type === 'core' ? 'text-emerald-500 hover:text-emerald-400' : 'text-blue-500 hover:text-blue-400'">
+                          <span>Reveal Question</span>
+                          <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </div>
+
+                    </div>
+
+                    <!-- CARD BACK -->
+                    <div class="flashcard-back absolute w-full h-full rounded-3xl p-5 border flex flex-col justify-between"
+                         :class="[
+                           darkMode ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-lg'
+                         ]">
+                      
+                      <div class="flex items-start justify-between gap-4">
+                        <div>
+                          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                :class="[
+                                  task.type === 'core' 
+                                    ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/10'
+                                    : 'bg-blue-500/10 text-blue-500 border border-blue-500/10'
+                                ]">
+                            <span x-text="task.title"></span> • <span x-text="task.category"></span>
+                          </span>
+                        </div>
+                        
+                        <!-- Flip Back Button -->
+                        <button @click.stop="task.revealed = false"
+                                class="text-slate-400 hover:text-slate-200">
+                          <i class="fa-solid fa-arrow-rotate-left"></i>
+                        </button>
+                      </div>
+
+                      <!-- The Actual Interview Question -->
+                      <div class="flex-1 py-1 overflow-y-auto pr-1 flex flex-col justify-between items-center w-full">
+                        <p class="text-xs sm:text-sm font-bold leading-relaxed mb-2" x-text="task.question"></p>
+                        
+                        <!-- Notes Textarea -->
+                        <div class="w-full mt-1">
+                          <textarea placeholder="Write down your key design points or notes here..."
+                                    :value="userState.notes?.[task.id] || ''"
+                                    @input="saveNote(task.id, $event.target.value)"
+                                    @click.stop
+                                    class="w-full h-12 p-2 rounded-xl text-[11px] border focus:ring-1 focus:ring-blue-500 focus:outline-none resize-none font-medium"
+                                    :class="darkMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'"></textarea>
+                        </div>
+                      </div>
+
+                      <!-- Interaction Actions on Back -->
+                      <div class="pt-3 border-t flex gap-2"
+                           :class="darkMode ? 'border-slate-800/50' : 'border-slate-100'">
+                        
+                        <!-- Needs Review Button -->
+                        <button @click.stop="completeTask(task, 'review')"
+                                class="flex-1 py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-amber-500/10 border-amber-500/20 text-amber-500 hover:bg-amber-500 hover:text-white hover:border-amber-400">
+                          <i class="fa-solid fa-clock-rotate-left"></i>
+                          Needs Review
+                        </button>
+
+                        <!-- Mark Mastered Button -->
+                        <button @click.stop="completeTask(task, 'mastered')"
+                                class="flex-1 py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                                :class="[
+                                  task.type === 'core'
+                                    ? 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 shadow-[0_2px_8px_rgba(16,185,129,0.2)]'
+                                    : 'bg-blue-600 border-blue-500 text-white hover:bg-blue-500 shadow-[0_2px_8px_rgba(59,130,246,0.2)]'
+                                ]">
+                          <i class="fa-solid fa-check-double"></i>
+                          Mastered
+                        </button>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+            </div>
+          </template>
+        </div>
+
+      </section>
+
+      <!-- CURRICULUM EXPLORER (Full 12 cols) -->
+      <section class="lg:col-span-12 mt-8 space-y-6">
+        
+        <!-- Header & Search -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b transition-colors"
+             :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
+              <i class="fa-solid fa-compass text-emerald-500"></i>
+              Curriculum & Question Bank Explorer
+            </h2>
+            <p class="text-xs text-slate-400 mt-1 font-medium">
+              Study the complete list of 100 core topics/questions and 20 DSA problems. Update your progress directly from here.
+            </p>
+          </div>
+          
+          <!-- Search Bar -->
+          <div class="relative w-full md:w-80">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+              <i class="fa-solid fa-magnifying-glass text-sm"></i>
+            </span>
+            <input type="text" 
+                   x-model="explorerSearch"
+                   placeholder="Search questions or topics..."
+                   class="w-full pl-9 pr-4 py-2 text-sm rounded-xl border focus:outline-none focus:ring-1 transition-all"
+                   :class="[
+                     darkMode 
+                       ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:ring-emerald-500 focus:border-emerald-500' 
+                       : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm'
+                   ]">
+          </div>
+        </div>
+
+        <!-- Tab Controls -->
+        <div class="flex flex-wrap gap-2 pb-2">
+          <button @click="explorerTab = 'tier_1_core'"
+                  class="px-4 py-2 rounded-xl text-xs font-bold transition-all border"
+                  :class="[
+                    explorerTab === 'tier_1_core'
+                      ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                      : (darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm')
+                  ]">
+            Tier 1: Core (50)
+          </button>
+          
+          <button @click="explorerTab = 'tier_2_resume'"
+                  class="px-4 py-2 rounded-xl text-xs font-bold transition-all border"
+                  :class="[
+                    explorerTab === 'tier_2_resume'
+                      ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                      : (darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm')
+                  ]">
+            Tier 2: Resume (30)
+          </button>
+
+          <button @click="explorerTab = 'tier_3_leadership'"
+                  class="px-4 py-2 rounded-xl text-xs font-bold transition-all border"
+                  :class="[
+                    explorerTab === 'tier_3_leadership'
+                      ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                      : (darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm')
+                  ]">
+            Tier 3: Leadership (10)
+          </button>
+
+          <button @click="explorerTab = 'tier_4_system_design'"
+                  class="px-4 py-2 rounded-xl text-xs font-bold transition-all border"
+                  :class="[
+                    explorerTab === 'tier_4_system_design'
+                      ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                      : (darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm')
+                  ]">
+            Tier 4: System Design (10)
+          </button>
+
+          <button @click="explorerTab = 'dsa_problems'"
+                  class="px-4 py-2 rounded-xl text-xs font-bold transition-all border"
+                  :class="[
+                    explorerTab === 'dsa_problems'
+                      ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-500/25'
+                      : (darkMode ? 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm')
+                  ]">
+            Blind 75 DSA (20)
+          </button>
+        </div>
+
+        <!-- Tab Content Grid -->
+        <div>
+          <!-- Concept questions list -->
+          <template x-if="explorerTab !== 'dsa_problems'">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <template x-for="q in getFilteredQuestions(explorerTab)" :key="q.id">
+                <div class="rounded-2xl p-5 border transition-all flex flex-col justify-between"
+                     :class="[
+                       q.mastered 
+                         ? (darkMode ? 'bg-emerald-950/15 border-emerald-500/30' : 'bg-emerald-50/50 border-emerald-200')
+                         : (q.mastered === false && q.completed ? (darkMode ? 'bg-amber-950/15 border-amber-500/30' : 'bg-amber-50/50 border-amber-200') 
+                         : (darkMode ? 'bg-slate-900/40 border-slate-800/80' : 'bg-white border-slate-200 shadow-sm'))
+                     ]">
+                  
+                  <div>
+                    <!-- Card Top -->
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700"
+                            x-text="q.topic"></span>
+                      
+                      <!-- Status Indicator Badge -->
+                      <span class="text-[10px] font-bold uppercase tracking-wider"
+                            :class="[
+                              q.mastered 
+                                ? 'text-emerald-500'
+                                : (q.mastered === false && q.completed ? 'text-amber-500' : 'text-slate-500')
+                            ]"
+                            x-text="q.mastered ? 'Mastered' : (q.mastered === false && q.completed ? 'Needs Review' : 'Unprepared')">
+                      </span>
+                    </div>
+
+                    <!-- Question content -->
+                    <h4 class="text-sm sm:text-base font-bold mt-4 text-slate-800 dark:text-slate-200" x-text="q.question"></h4>
+
+                    <!-- Study Notes textarea in Explorer -->
+                    <div class="mt-4">
+                      <label class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1">Study Notes</label>
+                      <textarea placeholder="Type your cheat sheet notes or trade-offs here..."
+                                :value="userState.notes?.[q.id] || ''"
+                                @input="saveNote(q.id, $event.target.value)"
+                                class="w-full h-12 p-2 rounded-xl text-[11px] border focus:ring-1 focus:ring-emerald-500 focus:outline-none resize-none font-medium"
+                                :class="darkMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Mastery Actions -->
+                  <div class="mt-6 pt-4 border-t flex gap-1.5 transition-colors"
+                       :class="darkMode ? 'border-slate-800/50' : 'border-slate-100'">
+                    
+                    <button @click="toggleQuestionMasteryDirect(q, 'unprepared')"
+                            class="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all border cursor-pointer"
+                            :class="[
+                              !q.mastered && !q.completed
+                                ? (darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-200 border-slate-300 text-slate-800')
+                                : (darkMode ? 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-300' : 'bg-transparent border-slate-200 text-slate-400 hover:text-slate-600')
+                            ]">
+                      Reset
+                    </button>
+
+                    <button @click="toggleQuestionMasteryDirect(q, 'review')"
+                            class="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all border cursor-pointer"
+                            :class="[
+                              !q.mastered && q.completed
+                                ? 'bg-amber-500/20 border-amber-500/30 text-amber-500'
+                                : (darkMode ? 'bg-transparent border-slate-800 text-slate-500 hover:text-amber-500/80' : 'bg-transparent border-slate-200 text-slate-400 hover:text-amber-500/80')
+                            ]">
+                      Review
+                    </button>
+
+                    <button @click="toggleQuestionMasteryDirect(q, 'mastered')"
+                            class="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all border cursor-pointer"
+                            :class="[
+                              q.mastered
+                                ? 'bg-emerald-600 border-emerald-500 text-white shadow-md'
+                                : (darkMode ? 'bg-transparent border-slate-800 text-slate-500 hover:text-emerald-500/80' : 'bg-transparent border-slate-200 text-slate-400 hover:text-emerald-500/80')
+                            ]">
+                      Mastered
+                    </button>
+
+                  </div>
+
+                </div>
+              </template>
+            </div>
+          </template>
+
+          <!-- DSA questions list -->
+          <template x-if="explorerTab === 'dsa_problems'">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <template x-for="p in getFilteredDsa()" :key="p.id">
+                <div class="rounded-2xl p-5 border transition-all flex flex-col justify-between"
+                     :class="[
+                       p.completed 
+                         ? (darkMode ? 'bg-red-950/15 border-red-500/30' : 'bg-red-50/50 border-red-200')
+                         : (darkMode ? 'bg-slate-900/40 border-slate-800/80' : 'bg-white border-slate-200 shadow-sm')
+                     ]">
+                  
+                  <div>
+                    <!-- Card Top -->
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700"
+                            x-text="p.category"></span>
+                      
+                      <!-- Status Indicator Badge -->
+                      <span class="text-[10px] font-bold uppercase tracking-wider"
+                            :class="p.completed ? 'text-red-500' : 'text-slate-500'"
+                            x-text="p.completed ? 'Solved' : 'Unsolved'">
+                      </span>
+                    </div>
+
+                    <!-- Question content -->
+                    <h4 class="text-base font-bold mt-4 text-slate-800 dark:text-slate-200" x-text="p.title"></h4>
+                  </div>
+
+                  <!-- DSA Actions -->
+                  <div class="mt-6 pt-4 border-t flex items-center justify-between gap-3 transition-colors"
+                       :class="darkMode ? 'border-slate-800/50' : 'border-slate-100'">
+                    
+                    <a :href="p.leetcode_url" target="_blank"
+                       class="text-xs font-bold text-red-500 hover:text-red-400 flex items-center gap-1">
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      LeetCode
+                    </a>
+
+                    <button @click="toggleDsaDirect(p)"
+                            class="py-1.5 px-4 rounded-lg text-[10px] font-bold transition-all border cursor-pointer"
+                            :class="[
+                              p.completed
+                                ? 'bg-red-600 border-red-500 text-white shadow-md'
+                                : (darkMode ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100')
+                            ]">
+                      <span x-text="p.completed ? 'Mark Unsolved' : 'Mark Solved'"></span>
+                    </button>
+                  </div>
+
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- BACKUP MODAL -->
+    <div x-show="showBackupModal" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+         x-transition.opacity>
+      
+      <div class="w-full max-w-md rounded-3xl p-6 border transition-all"
+           :class="darkMode ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-800'"
+           @click.away="showBackupModal = false">
+        
+        <div class="flex items-center justify-between pb-4 border-b"
+             :class="darkMode ? 'border-slate-800' : 'border-slate-100'">
+          <h3 class="text-xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-down text-emerald-500"></i>
+            Backup & Sync State
+          </h3>
+          <button @click="showBackupModal = false" class="text-slate-400 hover:text-slate-200">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div class="py-6 space-y-6">
+          <!-- Download Backup -->
+          <div>
+            <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">Export Data Backup</h4>
+            <p class="text-xs text-slate-500 mb-3">Download your entire preparation logs, custom question mastery states, and progress histories as a local JSON file.</p>
+            <button @click="downloadBackup(); showBackupModal = false"
+                    class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all">
+              <i class="fa-solid fa-file-arrow-down"></i>
+              Download backup.json
+            </button>
+          </div>
+
+          <div class="h-px bg-slate-800/50"></div>
+
+          <!-- Upload Backup -->
+          <div>
+            <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">Restore Data Backup</h4>
+            <p class="text-xs text-slate-500 mb-3">Restore your complete application state from a previously exported backup file.</p>
+            
+            <label class="w-full py-2.5 rounded-xl border border-dashed border-slate-700/80 hover:border-slate-500 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i class="fa-solid fa-file-arrow-up"></i>
+              Upload backup.json
+              <input type="file" accept=".json" @change="uploadBackup($event); showBackupModal = false" class="hidden">
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- REPORT MODAL -->
+    <div x-show="showReportModal" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+         x-transition.opacity>
+      
+      <div class="w-full max-w-3xl rounded-3xl p-6 border transition-all flex flex-col h-[85vh]"
+           :class="darkMode ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-800'"
+           @click.away="showReportModal = false">
+        
+        <div class="flex items-center justify-between pb-4 border-b"
+             :class="darkMode ? 'border-slate-800' : 'border-slate-100'">
+          <h3 class="text-xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-file-shield text-emerald-500"></i>
+            Weekly Sync Report
+          </h3>
+          <button @click="showReportModal = false" class="text-slate-400 hover:text-slate-200">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Markdown Preview -->
+        <div class="flex-1 py-4 overflow-y-auto">
+          <p class="text-xs text-slate-400 mb-3 font-medium">
+            This markdown summarizes your preparation log over the last 7 days and current mastery stats. Perfect for copying into engineering logs or documentation.
+          </p>
+          <textarea readonly
+                    x-text="reportMarkdown"
+                    class="w-full h-full p-4 font-mono text-xs rounded-xl border focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    :class="darkMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'"></textarea>
+        </div>
+
+        <div class="pt-4 border-t flex items-center justify-end gap-3"
+             :class="darkMode ? 'border-slate-800' : 'border-slate-100'">
+          
+          <button @click="showReportModal = false"
+                  class="py-2.5 px-4 rounded-xl border font-bold text-sm"
+                  :class="darkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-700' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'">
+            Close
+          </button>
+
+          <button @click="downloadReport(); showReportModal = false"
+                  class="py-2.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/25">
+            <i class="fa-solid fa-download"></i>
+            Download weekly_report.md
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MOCK INTERVIEW MODAL -->
+    <div x-show="showMockModal" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md"
+         x-transition.opacity>
+      
+      <div class="w-full max-w-4xl rounded-3xl p-6 border transition-all flex flex-col max-h-[90vh]"
+           :class="darkMode ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-800'"
+           @click.away="closeMockInterview()">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 border-b"
+             :class="darkMode ? 'border-slate-800' : 'border-slate-100'">
+          <div>
+            <h3 class="text-xl font-bold flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-indigo-500"></i>
+              Active Mock Session
+            </h3>
+            <p class="text-xs text-slate-500 mt-1">Simulated 45-minute technical session. Answer all sections and export for AI evaluation.</p>
+          </div>
+          
+          <!-- Timer and Actions -->
+          <div class="flex items-center gap-4">
+            <div class="px-4 py-2 rounded-xl text-lg font-mono font-bold flex items-center gap-2"
+                 :class="mockTimeRemaining < 300 ? 'bg-rose-500/10 text-rose-500 animate-pulse' : (darkMode ? 'bg-slate-950 text-indigo-400' : 'bg-slate-50 text-indigo-600')">
+              <i class="fa-regular fa-clock"></i>
+              <span x-text="formatMockTimer()"></span>
+            </div>
+            
+            <button @click="closeMockInterview()" class="text-slate-400 hover:text-slate-200">
+              <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Questions & Inputs Grid (Scrollable) -->
+        <div class="flex-1 overflow-y-auto py-6 space-y-6 pr-2">
+          
+          <template x-for="(q, idx) in mockQuestions" :key="q.id">
+            <div class="p-5 rounded-2xl border transition-all"
+                 :class="darkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50/50 border-slate-200'">
+              
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider"
+                      :class="q.type === 'dsa' ? 'bg-red-500/10 text-red-500' : (q.type === 'core' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-blue-500/10 text-blue-500')">
+                  Section <span x-text="idx + 1"></span> • <span x-text="q.type.toUpperCase()"></span>
+                </span>
+                
+                <span class="text-xs font-bold text-slate-500" x-text="q.category"></span>
+              </div>
+
+              <!-- Question text -->
+              <h4 class="text-base font-extrabold mt-3 mb-4 leading-relaxed" x-text="q.title"></h4>
+
+              <!-- Link for Leetcode if DSA -->
+              <template x-if="q.type === 'dsa'">
+                <div class="mb-4">
+                  <a :href="q.extra" target="_blank"
+                     class="inline-flex items-center gap-1.5 text-xs font-extrabold text-red-500 hover:text-red-400">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Solve this problem on LeetCode
+                  </a>
+                </div>
+              </template>
+
+              <!-- Answer Box -->
+              <div>
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 block mb-2">My Solution / Talking Points</label>
+                <textarea :placeholder="q.type === 'dsa' ? 'Write down your optimal approach, complexity analysis, and pseudocode...' : (q.type === 'core' ? 'Structure your key talking points or detailed concept explanations...' : 'Describe your architecture blocks, trade-offs, and design choices using system layers...')"
+                          x-model="mockAnswers[q.type]"
+                          class="w-full h-36 p-3 rounded-2xl text-sm border focus:ring-1 focus:ring-indigo-500 focus:outline-none font-mono"
+                          :class="darkMode ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-white border-slate-200 text-slate-700'"></textarea>
+              </div>
+
+            </div>
+          </template>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-4 border-t flex items-center justify-between"
+             :class="darkMode ? 'border-slate-800' : 'border-slate-100'">
+          <div class="text-xs text-slate-500 font-semibold">
+            Once done, click export to get a Markdown report containing your prompt and solutions.
+          </div>
+          
+          <div class="flex items-center gap-3">
+            <button @click="closeMockInterview()"
+                    class="px-4 py-2 rounded-xl text-xs font-bold border transition-all"
+                    :class="darkMode ? 'bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-400' : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'">
+              Cancel
+            </button>
+            
+            <button @click="exportMockMarkdown(); closeMockInterview()"
+                    class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-[0_4px_12px_rgba(79,70,229,0.2)]">
+              <i class="fa-solid fa-file-arrow-down"></i>
+              Export Mock for AI Grading
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 text-center text-xs font-semibold text-slate-500">
+      <p>Yuvi Tracker © 2026. Custom interview dashboard created with Alpine.js & Tailwind CSS.</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

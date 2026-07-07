@@ -1,0 +1,144 @@
+{
+  "dsa_problems": [
+    {
+      "id": "dsa-1",
+      "category": "Arrays & Hashing",
+      "title": "Two Sum",
+      "leetcode_url": "https://leetcode.com/problems/two-sum/",
+      "completed": false
+    },
+    {
+      "id": "dsa-2",
+      "category": "Arrays & Hashing",
+      "title": "Valid Anagram",
+      "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
+      "completed": false
+    },
+    {
+      "id": "dsa-3",
+      "category": "Two Pointers",
+      "title": "Valid Palindrome",
+      "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
+      "completed": false
+    },
+    {
+      "id": "dsa-4",
+      "category": "Two Pointers",
+      "title": "Container With Most Water",
+      "leetcode_url": "https://leetcode.com/problems/container-with-most-water/",
+      "completed": false
+    },
+    {
+      "id": "dsa-5",
+      "category": "Sliding Window",
+      "title": "Best Time to Buy and Sell Stock",
+      "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+      "completed": false
+    },
+    {
+      "id": "dsa-6",
+      "category": "Sliding Window",
+      "title": "Longest Substring Without Repeating Characters",
+      "leetcode_url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+      "completed": false
+    },
+    {
+      "id": "dsa-7",
+      "category": "Linked List",
+      "title": "Reverse Linked List",
+      "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
+      "completed": false
+    },
+    {
+      "id": "dsa-8",
+      "category": "Linked List",
+      "title": "Merge Two Sorted Lists",
+      "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+      "completed": false
+    },
+    {
+      "id": "dsa-9",
+      "category": "Linked List",
+      "title": "Reorder List",
+      "leetcode_url": "https://leetcode.com/problems/reorder-list/",
+      "completed": false
+    },
+    {
+      "id": "dsa-10",
+      "category": "Trees",
+      "title": "Invert Binary Tree",
+      "leetcode_url": "https://leetcode.com/problems/invert-binary-tree/",
+      "completed": false
+    },
+    {
+      "id": "dsa-11",
+      "category": "Trees",
+      "title": "Maximum Depth of Binary Tree",
+      "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+      "completed": false
+    },
+    {
+      "id": "dsa-12",
+      "category": "Trees",
+      "title": "Lowest Common Ancestor of a Binary Search Tree",
+      "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+      "completed": false
+    },
+    {
+      "id": "dsa-13",
+      "category": "1D Dynamic Programming",
+      "title": "Climbing Stairs",
+      "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
+      "completed": false
+    },
+    {
+      "id": "dsa-14",
+      "category": "1D Dynamic Programming",
+      "title": "Coin Change",
+      "leetcode_url": "https://leetcode.com/problems/coin-change/",
+      "completed": false
+    },
+    {
+      "id": "dsa-15",
+      "category": "1D Dynamic Programming",
+      "title": "Longest Increasing Subsequence",
+      "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+      "completed": false
+    },
+    {
+      "id": "dsa-16",
+      "category": "Graphs",
+      "title": "Number of Islands",
+      "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
+      "completed": false
+    },
+    {
+      "id": "dsa-17",
+      "category": "Graphs",
+      "title": "Clone Graph",
+      "leetcode_url": "https://leetcode.com/problems/clone-graph/",
+      "completed": false
+    },
+    {
+      "id": "dsa-18",
+      "category": "Stack",
+      "title": "Valid Parentheses",
+      "leetcode_url": "https://leetcode.com/problems/valid-parentheses/",
+      "completed": false
+    },
+    {
+      "id": "dsa-19",
+      "category": "Binary Search",
+      "title": "Search in Rotated Sorted Array",
+      "leetcode_url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+      "completed": false
+    },
+    {
+      "id": "dsa-20",
+      "category": "Intervals",
+      "title": "Merge Intervals",
+      "leetcode_url": "https://leetcode.com/problems/merge-intervals/",
+      "completed": false
+    }
+  ]
+}
